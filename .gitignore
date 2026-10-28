@@ -1,0 +1,33 @@
+# Credenciales — NUNCA en un repo público
+.env
+.env.*
+*.key
+*.pem
+auth.json
+config.yaml.bak*
+
+# Estado de Hermes que no se versiona
+sessions/
+logs/
+cache/
+state.db*
+*.db-shm
+*.db-wal
+
+# interno: notas de sesión, no material del agente
+PUNTO_DE_PARADA.md
+profile/MANIFIESTO.json
+
+# Artefactos de Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Índices y binarios grandes (viven en el Mac, no en el repo)
+*.npy
+*.faiss
+*.zip
+
+# macOS
+.DS_Store

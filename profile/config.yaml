@@ -1,0 +1,26 @@
+# CatalanIA — configuracion del perfil
+#
+# PUNTO DE PARTIDA, no es el config final. La instalacion real es:
+#   1. cp ~/.hermes/config.yaml ~/.hermes/profiles/catalania/config.yaml   (hereda claves y MCP)
+#   2. hermes config set agent.verify_on_stop true              --profile catalania
+#   3. hermes config set tool_loop_guardrails.hard_stop_enabled true --profile catalania
+#   4. hermes config set model.provider deepseek                --profile catalania
+#   5. hermes config set model.model deepseek-v4-flash          --profile catalania
+#
+# NUNCA escribir una clave de API en este archivo ni versionarlo. Este repo es PUBLICO.
+
+model:
+  provider: deepseek
+  model: deepseek-v4-flash
+
+agent:
+  # Verificar la salida antes de cerrar turno. Obligatorio en un agente comercial:
+  # el error caro no es un comando mal escrito, es un monto o una afirmacion sin fuente.
+  verify_on_stop: true
+
+tool_loop_guardrails:
+  # Cortar el turno al repetir el mismo fallo, en vez de insistir tres veces
+  # con el mismo enfoque equivocado.
+  hard_stop_enabled: true
+  same_tool_failure: 3
+  idempotent_no_progress: 2
