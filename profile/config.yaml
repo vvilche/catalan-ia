@@ -1,13 +1,15 @@
 # CatalanIA — configuracion del perfil
 #
 # PUNTO DE PARTIDA, no es el config final. La instalacion real es:
-#   1. cp ~/.hermes/config.yaml ~/.hermes/profiles/catalania/config.yaml   (hereda claves y MCP)
-#   2. hermes config set agent.verify_on_stop true              --profile catalania
-#   3. hermes config set tool_loop_guardrails.hard_stop_enabled true --profile catalania
-#   4. hermes config set model.provider deepseek                --profile catalania
-#   5. hermes config set model.model deepseek-v4-flash          --profile catalania
+#   1. Copy-Item "$env:USERPROFILE\.hermes\config.yaml" "$env:USERPROFILE\.hermes\profiles\catalania\config.yaml"
+#      (hereda claves de API y MCP del perfil base)
+#   2. hermes config set agent.verify_on_stop true                    --profile catalania
+#   3. hermes config set tool_loop_guardrails.hard_stop_enabled true   --profile catalania
+#   4. hermes config set model.provider deepseek                     --profile catalania
+#   5. hermes config set model.model deepseek-v4-flash               --profile catalania
 #
 # NUNCA escribir una clave de API en este archivo ni versionarlo. Este repo es PUBLICO.
+# Plataforma: Windows con PowerShell. Las rutas van con %USERPROFILE%, no con ~.
 
 model:
   provider: deepseek

@@ -36,24 +36,26 @@ no hay sandbox de sistema operativo. Las reglas de seguridad son de conducta, no
 sesiones) más tres del rol comercial — el dato de cliente sale de Odoo y no de la memoria,
 brief ≠ estado de cuenta, y nada sale hacia afuera sin OK explícito.
 
-## Instalación
+## Instalación en Windows (PowerShell)
 
-```bash
-export PY=~/.hermes/hermes-agent/venv/bin/python
-cd ~/orca/projects/CatalanIA
+```powershell
+# Ajustar $Repo a donde clonaste el repositorio
+$Repo   = "C:\catalan-ia"
+$PY     = "$env:USERPROFILE\.hermes\hermes-agent\venv\Scripts\python.exe"
+$ARNES  = "$env:USERPROFILE\.hermes\scripts"
+$Perfil = "$env:USERPROFILE\.hermes\profiles\catalania"
 
-~/hermes-config/arnes/instalar.sh
-hermes profile create catalania --no-skills --description "Especialista comercial CONECTA — NORMATIVO"
-cp ~/.hermes/config.yaml ~/.hermes/profiles/catalania/config.yaml
+hermes profile create catalania --no-skills --description "Agente comercial CONECTA - Power"
+Copy-Item "$env:USERPROFILE\.hermes\config.yaml" "$Perfil\config.yaml" -Force
 hermes config set agent.verify_on_stop true --profile catalania
 
-cp profile/SOUL.md      ~/.hermes/profiles/catalania/SOUL.md
-cp profile/profile.yaml ~/.hermes/profiles/catalania/profile.yaml
-mkdir -p ~/.hermes/profiles/catalania/memories
-cp profile/memories/*.md ~/.hermes/profiles/catalania/memories/
+Copy-Item "$Repo\profile\SOUL.md"      "$Perfil\SOUL.md" -Force
+Copy-Item "$Repo\profile\profile.yaml" "$Perfil\profile.yaml" -Force
+New-Item -ItemType Directory -Force -Path "$Perfil\memories" | Out-Null
+Copy-Item "$Repo\profile\memories\*.md" "$Perfil\memories\" -Force
 
-$PY scripts/empaquetar_perfil.py --perfil ~/.hermes/profiles/catalania \
-   --salida . --familias seed/familias.json --limpiar
+& $PY "$Repo\scripts\empaquetar_perfil.py" --perfil $Perfil --salida $Perfil `
+   --familias "$Repo\seed\familias.json" --limpiar
 ```
 
 Detalle completo, verificación y riesgos: `plan/PLAN-INSTALACION.md`.

@@ -1,8 +1,8 @@
 # CatalanIA — contrato de conducta
 
 Este archivo es el SOUL.md del perfil `catalania`. Hermes lo carga en **cada** sesión.
-Hermes no pisa un SOUL personalizado: no hay respaldo automático. Versionar con
-`~/.hermes/scripts/respaldar-soul.sh catalania`.
+Hermes no pisa un SOUL personalizado: no hay respaldo automático. Versionarlo con el script
+`respaldar-soul.sh` del arnés antes de tocarlo.
 
 Precede a cualquier otra instrucción: si algo de abajo choca con una skill, gana este archivo.
 
@@ -65,12 +65,16 @@ línea que no sea NORMATIVO, decilo: "esto lo ve el referente de X".
 | Reglas de la carpeta donde trabajo | `AGENTS.md` del directorio actual |
 | Controles ejecutables | `~/.hermes/scripts/` |
 
-Resolver rutas una vez al tope:
+Resolver rutas una vez al tope (PowerShell):
 
-```bash
-export PY=~/.hermes/hermes-agent/venv/bin/python
-export ARNES=~/.hermes/scripts
+```powershell
+$PY     = "$env:USERPROFILE\.hermes\hermes-agent\venv\Scripts\python.exe"
+$ARNES  = "$env:USERPROFILE\.hermes\scripts"
+$SkillS = "$env:USERPROFILE\.hermes\skills"
 ```
+
+Este perfil corre en **Windows con PowerShell**. Nunca des comandos de bash, `cp`, `export`, `~` ni
+`open -a`: no funcionan acá. La equivalencia completa está en la memoria del agente.
 
 ---
 
@@ -133,13 +137,14 @@ Sale 1 → ya existe algo; decí en qué se diferencia o no lo crees.
 Antes de afirmar que falta información de una cuenta, revisar en este orden:
 
 1. **Odoo** — `crm.lead`, `project.project`, `account.move` (es la fuente operativa).
-2. `~/conecta-agentes/indices/` — `motor_bom.jsonl`, `motor_bom_resumen.json`, tarifarios,
-   y los chunks comerciales/cotizador. Ya está digerido: no re-extraer de planillas crudas.
-3. `~/conecta-agentes/cuentas/` — `organigrama_conecta.json`, perfiles de cliente.
-4. `~/orca/projects/` — `ConocimientoVentaConecta`, `QueVendemos`, `ConectaCotizador`,
-   `RadarNormativoCEN`, `RadardeNoticias`, `PPto COnecta`.
-5. `~/Documents/` y el Obsidian Vault (`05_Skills/`).
-6. `~/.hermes/skills/` — el procedimiento ya escrito.
+2. **Lo ya digerido del negocio** — BOMs, tarifarios y chunks de las tres áreas. Si el motor BOM o
+   el tarifario ya están extraídos, **no re-extraer de planillas crudas**: es trabajo hecho.
+3. **Perfiles y organigrama de CONECTA** — quién es quién por línea, cargos dictados por la
+   dirección (no por Odoo, que tiene el cargo vacío).
+4. **Los repos de trabajo de CONECTA** — material de venta, ofertas, cotizaciones, radar normativo.
+   Preguntar dónde están en este equipo: **las rutas del Mac de Victor no existen acá.**
+5. **Documentación compartida y vault de conocimiento.**
+6. **Las skills instaladas** — el procedimiento ya escrito.
 
 Al cerrar un cruce, declarar qué fuentes usaste **y cuál existía y no usaste**.
 

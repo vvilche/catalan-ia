@@ -27,16 +27,18 @@ arXiv:2609.00006v1. La auditoría completa, con lo verificado y las brechas decl
 ausencia deliberada, y **una brecha estructural abierta: no hay sandbox de sistema operativo**.
 
 ```
-~/.hermes/profiles/catalania/
+%USERPROFILE%\.hermes\profiles\catalania\
 ├── SOUL.md                 contrato de conducta: 13 reglas, se carga en cada sesión
-├── memories/
-│   ├── MEMORY.md           hechos de entorno (no procedimientos)
+├── memories\
+│   ├── MEMORY.md           hechos de entorno + equivalencias de PowerShell
 │   └── USER.md             quién es Victor y cómo quiere que le hable
 ├── config.yaml             modelo, verify_on_stop, hard_stop
 ├── profile.yaml            descripción de la silla
-├── skills/                 230 skills en 12 familias (ver seed/familias.json)
-└── cron/jobs.json          radar normativo semanal + backup
+└── skills\                 230 skills en 12 familias (ver seed/familias.json)
 ```
+
+**Plataforma: Windows con PowerShell.** No hay `cp`, `export`, `~` ni `open -a`. El perfil trae la
+tabla de equivalencias en `memories/MEMORY.md` y el SOUL prohíbe dar comandos de bash.
 
 ## 3. Las 12 familias de skills (230 skills) — Power
 
@@ -129,60 +131,73 @@ Una regla en prosa se cumple ~53% de las veces. Un script, ~100%. Por eso:
 
 El último es nuevo en esta sesión y es el que hace posible un repo público.
 
-## 6. Instalación, paso por paso
+## 6. Instalación en Windows (PowerShell)
 
-Requisitos: Hermes instalado, `gh` autenticado como `vvilche`, el arnés en
-`~/hermes-config/arnes/`.
+Requisitos: Hermes instalado, el repo clonado, y el arnés en la máquina.
+**Este perfil corre en Windows.** Los comandos son PowerShell, no bash.
 
-```bash
-export PY=~/.hermes/hermes-agent/venv/bin/python
-cd ~/orca/projects/CatalanIA
+```powershell
+# Rutas del entorno (una sola vez por sesión)
+$PY    = "$env:USERPROFILE\.hermes\hermes-agent\venv\Scripts\python.exe"
+$ARNES = "$env:USERPROFILE\.hermes\scripts"
+$Repo  = "C:\ruta\donde\clonaste\catalan-ia"   # <= ajustar a tu equipo
+$Perfil = "$env:USERPROFILE\.hermes\profiles\catalania"
+Set-Location $Repo
 
-# 0. Colisión
-$PY ~/.hermes/scripts/antes_de_crear.py "catalania"     # exit 0 obligatorio
+# 0. Colisión: exit 0 obligatorio
+& $PY "$ARNES\antes_de_crear.py" "catalania"
 
-# 1. Arnés (11 scripts)
-~/hermes-config/arnes/instalar.sh
-~/hermes-config/arnes/instalar.sh --check               # 11 OK
+# 1. Arnés de controles (10 scripts, stdlib puro: corren igual en Windows)
+& "$env:USERPROFILE\hermes-config\arnes\instalar.sh"        # si tenés git-bash
+& $PY "$ARNES\verificar_privacidad_perfil.py" "$Perfil"     # o copiar los .py a mano
 
-# 2. Crear el perfil
-hermes profile create catalania --no-skills \
-  --description "Especialista comercial CONECTA — NORMATIVO, transición a SCADA"
+# 2. Crear el perfil vacío
+hermes profile create catalania --no-skills --description "Agente comercial CONECTA - Power (NORMATIVO, SCADA, PAC-SSEE)"
 
 # 3. Config: heredar claves y MCP, después endurecer
-cp ~/.hermes/config.yaml ~/.hermes/profiles/catalania/config.yaml
-hermes config set agent.verify_on_stop true                     --profile catalania
-hermes config set tool_loop_guardrails.hard_stop_enabled true    --profile catalania
-hermes config set model.provider deepseek                       --profile catalania
-hermes config set model.model deepseek-v4-flash                 --profile catalania
+Copy-Item "$env:USERPROFILE\.hermes\config.yaml" "$Perfil\config.yaml" -Force
+hermes config set agent.verify_on_stop true                      --profile catalania
+hermes config set tool_loop_guardrails.hard_stop_enabled true     --profile catalania
+hermes config set model.provider deepseek                        --profile catalania
+hermes config set model.model deepseek-v4-flash                  --profile catalania
 
-# 4. SOUL, memorias y descripción
-cp profile/SOUL.md           ~/.hermes/profiles/catalania/SOUL.md
-cp profile/profile.yaml      ~/.hermes/profiles/catalania/profile.yaml
-mkdir -p ~/.hermes/profiles/catalania/memories
-cp profile/memories/MEMORY.md profile/memories/USER.md \
-   ~/.hermes/profiles/catalania/memories/
+# 4. SOUL, descripción y memorias
+Copy-Item "$Repo\profile\SOUL.md"      "$Perfil\SOUL.md" -Force
+Copy-Item "$Repo\profile\profile.yaml" "$Perfil\profile.yaml" -Force
+New-Item -ItemType Directory -Force -Path "$Perfil\memories" | Out-Null
+Copy-Item "$Repo\profile\memories\*.md" "$Perfil\memories\" -Force
 
-# 5. Skills (87, por familia)
-$PY scripts/empaquetar_perfil.py \
-   --perfil ~/.hermes/profiles/catalania \
-   --salida . --familias seed/familias.json --limpiar
+# 5. Skills: 230 de Power, por familia, INSTALADAS EN EL PERFIL
+& $PY "$Repo\scripts\empaquetar_perfil.py" --perfil $Perfil --salida $Perfil --familias "$Repo\seed\familias.json" --limpiar
 
 # 6. Verificar
-$PY ~/.hermes/scripts/verificar_privacidad_perfil.py ~/.hermes/profiles/catalania
-hermes profile list | grep catalania                     # modelo visible, no "—"
-find ~/.hermes/profiles/catalania/skills -name SKILL.md | wc -l   # ~87
+& $PY "$ARNES\verificar_privacidad_perfil.py" $Perfil
+hermes profile list | Select-String catalania
+(Get-ChildItem "$Perfil\skills" -Recurse -Filter SKILL.md).Count   # 230
 ```
 
-Nota: `hermes profile create` crea el wrapper `~/.local/bin/catalania`. A partir de ahí se
-entra con `catalania` o con `hermes --profile catalania`.
+**Tres cosas del orden que importan:**
+
+1. `--perfil` es **de dónde saca** (el perfil recién creado) y `--salida` es **dónde deja**
+   (las mismas rutas del perfil). Si `--salida` apunta al repo, las skills se copian al repo y
+   no se instalan.
+2. El `Copy-Item` del config va **antes** del `hermes config set`, para no pisar lo heredado.
+3. Las memorias se copian **antes** del empaquetado, porque el gate audita el perfil completo.
+
+Nota: `hermes profile create` deja el lanzador en el PATH de Hermes. Se entra con `catalania` o
+con `hermes --profile catalania`.
+
+### Si el arnés no está en esta máquina
+
+Los scripts son Python de stdlib puro y viajan con el repo. Copiarlos a
+`"$env:USERPROFILE\.hermes\scripts\"` y listo: no necesitan `pip install` ni bash.
 
 ## 7. Publicar el repo
 
-```bash
-$PY ~/.hermes/scripts/verificar_privacidad_perfil.py ./profile   # exit 0 obligatorio
-gh repo create vvilche/catalan-ia --public --source . --push \
-  --description "CatalanIA — perfil Hermes del especialista comercial CONECTA (NORMATIVO)"
+```powershell
+& $PY "$ARNES\verificar_privacidad_perfil.py" "$Repo\profile"   # exit 0 obligatorio
+gh repo create vvilche/catalan-ia --public --source . --push `
+  --description "CatalanIA - agente comercial CONECTA (Power: NORMATIVO, SCADA, PAC-SSEE)"
 ```
 
 Antes del primer push, revisar a mano los **AVISOS** (no bloquean): tarifas HH, márgenes y
@@ -195,25 +210,29 @@ nombres de persona. Un aviso que se publica es una decisión, no un accidente.
 | Lunes 08:00 | Radar normativo CEN → oportunidades por cuenta |
 | Diario | Revisar cartas nuevas, cruzar con clientes, cross-sell |
 | Al pedir un lead | Leer Odoo (`crm.lead`), calificar con la Escalera, proponer plan |
-| Antes de un correo | Borrador + OK de Victor. El envío no lo hace el agente solo |
-| Al cerrar sesión | `respaldar-soul.sh catalania` (versiona el SOUL) |
+| Antes de un correo | Borrador + OK de quien corresponda. El envío no lo hace el agente solo |
+| Al cerrar sesión | Respaldar el SOUL con el script del arnés |
 
-Cron heredado del radar: job `f71496cbf722`, lunes 08:00, corre
-`~/orca/projects/RadarNormativoCEN/src/sincronizar.sh`. El correo lo manda el script; el agente
-no redacta otro. **`--deliver local` no avisa en CLI**: si se quiere notificación, apuntar a
-Telegram o WhatsApp.
+**El radar normativo del cron no viene con este repo.** El job que hoy corre en el Mac de Victor
+apunta a rutas que en Windows no existen. Para que funcione en el equipo de Francisco hay que
+llevar el proyecto del radar y reconfigurar el job con la ruta real. Eso es trabajo pendiente, no
+algo que la instalación resuelva sola.
 
 ## 9. Qué queda pendiente y depende de una decisión
 
 1. **Canales** — CLI, WhatsApp, Telegram, cron. Sin esto el agente existe pero no se usa.
 2. **Permisos** — qué puede hacer sin preguntar. Propuesta: leer todo, escribir nada.
-3. **Transición a SCADA** — cuándo se declara y qué skills de SCADA entran.
+3. **Procesos** — línea fuera del alcance, queda para cuando se aborde (35 skills ya identificadas
+   en `_procesos_pendiente`).
 4. **Vigencia del tarifario** — el gate R09 ("tarifario con más de 12 meses no emite") no puede
    evaluar porque falta el campo de vigencia versionado. Sin eso el agente cotiza con precios
    que no puede fechar.
 5. **Etiquetado de chunks** — el índice es uno (188k chunks). Falta la etiqueta `linea` y
    `componente` por chunk, sale del CONTENIDO y no del path. Es trabajo de datos, no de
    infraestructura: FAISS ya filtra por metadato.
+6. **Las rutas del corpus** — el material digerido (BOMs, tarifarios, chunks) hoy vive en el Mac
+   de Victor. En el PC de Francisco hay que decidir si se copia, se comparte por red o se consulta
+   remoto. Sin eso, el agente no tiene el contexto que lo hace útil.
 
 ## 10. Riesgos declarados
 
