@@ -140,6 +140,11 @@ def main():
 
     idx, copiadas = {}, 0
     for fam, items in familias.items():
+        # Las familias que empiezan con "_" son referencia, no se instalan al perfil
+        # (ej. _procesos_pendiente: linea sin hacer, se conserva para no perder el trabajo).
+        if fam.startswith("_"):
+            print("  omitida (referencia): %s (%d skills)" % (fam, len(items)))
+            continue
         for it in items:
             src = os.path.join(os.path.expanduser("~/.hermes/skills"), it["src"])
             dst = os.path.join(dest_skills, fam, it["name"])

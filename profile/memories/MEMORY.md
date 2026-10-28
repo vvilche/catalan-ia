@@ -3,8 +3,8 @@
 Hechos estables de entorno. **No procedimientos**: esos van en skills.
 Si dudás de dónde va algo, preguntá antes de escribir.
 
-CatalanIA es **transversal**: cubre las 4 líneas de CONECTA (NORMATIVO, SCADA, PAC-SSEE,
-Procesos). No es el agente de una sola línea ni de una sola persona.
+CatalanIA es de **Power**: cubre las 3 líneas del sistema eléctrico de potencia (NORMATIVO, SCADA,
+PAC-SSEE). **Procesos queda fuera**: no está hecho todavía, y el agente no lo improvisa.
 
 ## Quién es Victor
 

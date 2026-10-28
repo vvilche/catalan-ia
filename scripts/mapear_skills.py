@@ -31,9 +31,13 @@ def index_skills():
     return idx
 
 
-# ── eje de NEGOCIO: 4 lineas + capas compartidas ────────────────────────────
+# ── eje de NEGOCIO ──────────────────────────────────────────────────────────
+# CatalanIA = POWER: NORMATIVO + SCADA + PAC-SSEE (el sistema electrico de
+# potencia). PROCESOS QUEDA FUERA: esta sin hacer y el agente no lo cubre.
+# Las skills de Procesos se conservan abajo en _procesos_pendiente para que el
+# trabajo ya identificado no se pierda cuando esa linea se aborde.
 FAMILIAS = {
-    # ===== las 4 lineas de negocio =====
+    # ===== las 3 lineas de POWER =====
     "linea_normativo": [
         "escalera-al-exito", "conecta-ventas-metodologia", "conecta-ventas", "conecta-sales",
         "conecta-dolor-oculto", "conecta-objeciones", "score-potencial-cliente",
@@ -55,7 +59,8 @@ FAMILIAS = {
         "calculating-short-circuit", "novatech-rtu-retrofit", "industrial-diagram-ai",
         "novatech-products", "vizimax-products", "satec-products",
     ],
-    "linea_procesos": [
+    # PROCESOS NO ENTRA: esta sin hacer. Se conserva aparte para no perder el trabajo.
+    "_procesos_pendiente": [
         "supcon-products", "supcon-dcs-ecs700", "supcon-hardware", "supcon-instruments",
         "supcon-valves", "supcon-sis-tcs", "supcon-software-platform", "supcon-control-room",
         "supcon-pride", "supcon-nyx-ucs", "supcon-mining-chile", "supcon-pulp-paper",
@@ -66,9 +71,10 @@ FAMILIAS = {
         "tier0-populate-eventflow", "tier0-populate-grafana", "tier0-populate-sourceflow",
         "tier0-content-population", "tier0-preventa-subestaciones", "tier0-openapi-reference",
         "tier0-pcba-pattern", "uns-namespace-generator", "substation-tier0-pipeline",
+        "odoo-operaciones-campo", "conecta-solutions",
     ],
 
-    # ===== capas compartidas por las 4 lineas =====
+    # ===== capas compartidas por las 3 lineas de POWER =====
     "comun_leads": [
         "conecta-leads", "conecta-leads-bess", "conecta-leads-pci", "conecta-leads-ruido",
         "conecta-leads-sced", "leads-skill-template", "producto-industria-mapping",
@@ -169,12 +175,17 @@ if __name__ == '__main__':
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(res, open(OUT, 'w'), ensure_ascii=False, indent=1)
 
-    print("=== FAMILIAS (eje de negocio) ===")
+    print("=== FAMILIAS (POWER: NORMATIVO + SCADA + PAC-SSEE) ===")
     for fam, items in res.items():
-        print("%-22s %3d" % (fam, len(items)))
-    todas = {x['name'] for v in res.values() for x in v}
-    print("\nSuma por familia: %d" % sum(len(v) for v in res.values()))
-    print("Skills UNICAS:    %d" % len(todas))
+        marca = "  [no se instala]" if fam.startswith("_") else ""
+        print("%-22s %3d%s" % (fam, len(items), marca))
+    instala = {k: v for k, v in res.items() if not k.startswith("_")}
+    todas = {x['name'] for v in instala.values() for x in v}
+    print("\nSuma por familia (instalables): %d" % sum(len(v) for v in instala.values()))
+    print("Skills UNICAS al perfil:        %d" % len(todas))
+    pend = {x['name'] for k, v in res.items() if k.startswith("_") for x in v}
+    print("Skills en _pendiente (aparte):  %d" % len(pend))
+    print("Solapamiento pendiente/activo:  %d" % len(pend & todas))
     if faltan:
         print("\nNO ENCONTRADAS (%d): %s" % (len(set(faltan)), ", ".join(sorted(set(faltan)))))
     else:

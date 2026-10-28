@@ -185,7 +185,7 @@
    "src": "partners/satec-products"
   }
  ],
- "linea_procesos": [
+ "_procesos_pendiente": [
   {
    "name": "supcon-products",
    "src": "sales/supcon-products"
@@ -317,6 +317,14 @@
   {
    "name": "substation-tier0-pipeline",
    "src": "autonomous-ai-agents/substation-tier0-pipeline"
+  },
+  {
+   "name": "odoo-operaciones-campo",
+   "src": "odoo-operaciones-campo"
+  },
+  {
+   "name": "conecta-solutions",
+   "src": "conecta/conecta-solutions"
   }
  ],
  "comun_leads": [

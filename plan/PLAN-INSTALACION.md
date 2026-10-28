@@ -34,25 +34,24 @@ ausencia deliberada, y **una brecha estructural abierta: no hay sandbox de siste
 │   └── USER.md             quién es Victor y cómo quiere que le hable
 ├── config.yaml             modelo, verify_on_stop, hard_stop
 ├── profile.yaml            descripción de la silla
-├── skills/                 263 skills en 13 familias (ver seed/familias.json)
+├── skills/                 230 skills en 12 familias (ver seed/familias.json)
 └── cron/jobs.json          radar normativo semanal + backup
 ```
 
-## 3. Las 13 familias de skills (263 skills) — eje de NEGOCIO
+## 3. Las 12 familias de skills (230 skills) — Power
 
-CatalanIA es transversal: las familias son las 4 líneas de negocio más las capas compartidas.
-No es un agente por producto ni por persona.
+CatalanIA cubre **Power**: las 3 líneas del sistema eléctrico de potencia más las capas
+compartidas. **Procesos no está en el agente**: se conserva aparte como referencia.
 
-### Las 4 líneas
+### Las 3 líneas de Power — 45 skills
 
 | Familia | N | Qué cubre |
 |---|---|---|
 | `linea_normativo` | 22 | Escalera, radar CEN, cartas, SITR, ECAP, EDAC/EDAG, PRS, escalera graph |
 | `linea_scada` | 14 | ELIPSE, SCADA, unilineales, COMASA, gemelo digital, IoT industrial |
 | `linea_pac_ssee` | 9 | Protecciones, SLRP, coordinación, cortocircuito, retrofit RTU, NovaTech/Vizimax/SATEC |
-| `linea_procesos` | 33 | SUPCON completo (DCS, instrumentos, válvulas, SIS, PRIDE, UCS), Tier0 (15), simuladores |
 
-### Las 9 capas compartidas
+### Las 9 capas compartidas — 185 slots
 
 | Familia | N | Qué cubre |
 |---|---|---|
@@ -66,18 +65,25 @@ No es un agente por producto ni por persona.
 | `comun_plataforma` | 23 | Hermes, MCP, cron, VPS, modelos, gateway, kanban |
 | `comun_comercial` | 35 | B2B, negociación, innovación, RAG, corpus, cursos, marca |
 
-**Verificado:** 263 skills únicas, todas existen en `~/.hermes/skills`.
-La suma por familia (264) es mayor porque una skill puede servir a dos capas.
+### Fuera de alcance: Procesos
 
-**Criterio de corte:** entró todo lo que el portafolio de CONECTA usa para vender, calificar,
-cotizar, buscar y publicar con evidencia. Quedó fuera lo que no es del negocio: `science` (38),
-`gaming`, `smart-home`, `mlops` profundo. Una línea nueva se agrega sin tocar el SOUL: una skill
-extra cambia el alcance, no la conducta.
+`_procesos_pendiente` tiene 35 skills identificadas (SUPCON DCS/instrumentos/válvulas/SIS/Tier0).
+**No se instalan**: el prefijo `_` hace que el empaquetador las omita. Quedan ahí para no perder el
+trabajo cuando esa línea se aborde. Si una cuenta pide Procesos, el agente declara que no está
+cubierto en vez de improvisar (regla 13 del SOUL ampliada en "Quién sos").
+
+**Verificado:** 230 skills únicas al perfil, todas existen en `~/.hermes/skills`. Solapamiento
+entre Procesos y lo activo: 2 skills.
+
+**Criterio de corte:** entró todo lo que Power usa para vender, calificar, cotizar, buscar y
+publicar con evidencia. Quedó fuera lo que no es del negocio: `science` (38), `gaming`,
+`smart-home`, `mlops` profundo. Una línea nueva se agrega sin tocar el SOUL: una skill extra
+cambia el alcance, no la conducta.
 
 **Advertencia de arquitectura (skill `conecta-agent-patterns`):** el conocimiento de una línea
 NO puede vivir en la silla de una persona. Si Francisco rota a SCADA, su criterio queda en skills
 versionadas en el repo, no en su perfil personal. Eso es lo que hace este paquete — y es la razón
-por la que es transversal y no "el agente de Francisco".
+por la que cubre las tres líneas de Power y no es "el agente de Francisco".
 
 ## 4. Las reglas de conducta (SOUL.md)
 
@@ -214,7 +220,7 @@ Telegram o WhatsApp.
 - **Repo público con material de CONECTA.** El detector cubre clientes, montos, correos,
   teléfonos, rutas, IPs y credenciales. **No cubre** un criterio comercial escrito en prosa
   ("a este cliente le vendemos barato porque..."). Eso se revisa a mano, no hay regex que lo atrape.
-- **Skills de terceros con licencia.** 263 skills incluyen material de vendors y de libros. Antes
+- **Skills de terceros con licencia.** 230 skills incluyen material de vendors y de libros. Antes
   de un repo público, verificar que cada una se pueda redistribuir.
 - **El empaquetador sanea, pero el SOUL se escribe a mano.** Si alguien edita el SOUL en el repo
   y no en el perfil, quedan dos verdades. Una cifra, un solo origen: el SOUL vivo es el del
