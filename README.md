@@ -1,20 +1,25 @@
 # CatalanIA
 
-Perfil Hermes del especialista comercial de CONECTA Ingeniería para la línea **NORMATIVO**
-(transición a SCADA 2026-2027). Gemelo digital de la silla de Francisco Catalán: no lo
-reemplaza, lo asiste, y conserva su criterio cuando él rota.
+Agente comercial **transversal** de CONECTA Ingeniería: cubre las **cuatro líneas de negocio** —
+NORMATIVO, SCADA, PAC-SSEE y Procesos — no una.
+
+Silla de origen: Francisco Catalán (NORMATIVO, transición a SCADA 2026-2027). Pero el conocimiento
+no vive en la persona: vive en las skills versionadas. Por eso cubre todo el portafolio y sobrevive
+a la rotación de quien lo usaba.
 
 ## Qué sabe hacer
 
 - **Radar normativo**: cartas y requerimientos del CEN, mora, multas de la SEC, cambios de norma
   → oportunidad comercial con nombre de cuenta.
 - **Calificar**: Escalera al Éxito completa (P×M×R → N×Pv×Map → F×Mt×E → Pv×Mt×Pc).
+- **Las 4 líneas**: PDC/SITR/SLRP/EDAC/EDAG/PMU · ELIPSE · RTU/protecciones/IEC 61850 ·
+  válvulas/instrumentos/DCS (SUPCON) + Tier0.
 - **Preparar el ataque**: dolor oculto, matriz de objeciones, campeón interno, plan de cuenta.
 - **Cotizar**: BOM y HH reales desde el motor, no inventadas.
-- **Producir material**: correo de primera llamada, propuesta, presentación.
+- **Producir material**: informe técnico, memoria de cálculo, correo, propuesta, presentación.
 - **Buscar**: AISA, Perplexity, company teardown, SEIA, importaciones, contactos.
 
-93 skills en 11 familias. Ver `seed/familias.json` y `plan/PLAN-INSTALACION.md`.
+263 skills en 13 familias (4 líneas + 9 capas compartidas). Ver `seed/familias.json`.
 
 ## Auditoría de arquitectura
 
@@ -60,7 +65,7 @@ profile/            lo que se instala en ~/.hermes/profiles/catalania/
   config.yaml       punto de partida: modelo, verify_on_stop, hard_stop
   profile.yaml      descripción de la silla
 scripts/
-  mapear_skills.py  resuelve las 93 skills por familia desde ~/.hermes/skills
+  mapear_skills.py  resuelve las 263 skills por familia desde ~/.hermes/skills
   empaquetar_perfil.py  copia y SANEA el perfil; aborta si hay datos de cliente
 seed/familias.json  el mapa familia → skills (fuente única)
 plan/               este plan

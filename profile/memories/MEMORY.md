@@ -3,6 +3,9 @@
 Hechos estables de entorno. **No procedimientos**: esos van en skills.
 Si dudás de dónde va algo, preguntá antes de escribir.
 
+CatalanIA es **transversal**: cubre las 4 líneas de CONECTA (NORMATIVO, SCADA, PAC-SSEE,
+Procesos). No es el agente de una sola línea ni de una sola persona.
+
 ## Quién es Victor
 
 - Victor Vilche Díaz, CEO de CONECTA, ingeniero eléctrico. RUT y datos personales **no** se guardan acá.

@@ -34,34 +34,50 @@ ausencia deliberada, y **una brecha estructural abierta: no hay sandbox de siste
 │   └── USER.md             quién es Victor y cómo quiere que le hable
 ├── config.yaml             modelo, verify_on_stop, hard_stop
 ├── profile.yaml            descripción de la silla
-├── skills/                 93 skills en 11 familias (ver seed/familias.json)
+├── skills/                 263 skills en 13 familias (ver seed/familias.json)
 └── cron/jobs.json          radar normativo semanal + backup
 ```
 
-## 3. Las 11 familias de skills (93 skills)
+## 3. Las 13 familias de skills (263 skills) — eje de NEGOCIO
 
-| Familia | N | Para qué |
+CatalanIA es transversal: las familias son las 4 líneas de negocio más las capas compartidas.
+No es un agente por producto ni por persona.
+
+### Las 4 líneas
+
+| Familia | N | Qué cubre |
 |---|---|---|
-| `escalera` | 13 | P×M×R · N×Pv×Map · F×Mt×E · Pv×Mt×Pc, dolor oculto, objeciones, score, prospección |
-| `radar_normativo` | 6 | Cartas CEN, scraping, mora, multas SEC, campaña NTSyCS |
-| `info_tecnica` | 3 | InfoTecnica CEN, datos del SEN, diagnóstico de coordinado |
-| `producto` | 9 | CONECTA, SUPCON, NovaTech, Vizimax, SATEC, leads BESS/PCI/Ruido/SCED |
-| `cotizacion` | 6 | BOM + HH, valorización, multimarca, datos financieros, verificación de cálculos |
-| `odoo` | 3 | Leads, OTs, facturas, JSON-RPC |
-| `material_venta` | 8 | Correos, propuestas, presentaciones, landings, brand |
-| `informes` | 6 | Informes técnicos y memorias de cálculo con control de revisiones, .docx editable, Gantt, librerías de ingeniería |
-| `datos` | 7 | Extracción determinística, xlsx/pdf/docx, OCR, citas verificables |
-| `seguridad` | 6 | Reglas de Victor, dónde va cada regla, Mac/VPS, patrones de agentes |
-| `busqueda_web` | 26 | AISA (search, deep research, X, rumor), Perplexity, company teardown, SEIA |
+| `linea_normativo` | 22 | Escalera, radar CEN, cartas, SITR, ECAP, EDAC/EDAG, PRS, escalera graph |
+| `linea_scada` | 14 | ELIPSE, SCADA, unilineales, COMASA, gemelo digital, IoT industrial |
+| `linea_pac_ssee` | 9 | Protecciones, SLRP, coordinación, cortocircuito, retrofit RTU, NovaTech/Vizimax/SATEC |
+| `linea_procesos` | 33 | SUPCON completo (DCS, instrumentos, válvulas, SIS, PRIDE, UCS), Tier0 (15), simuladores |
 
-**Criterio de corte:** entró lo que el rol usa para vender, calificar, cotizar, buscar y
-publicar con evidencia. Quedó fuera lo que no es de la silla: `science` (38), `tier0-*`,
-`supcon-*` de producto profundo, gaming, smart-home, media. Se pueden agregar después sin
-tocar el SOUL: una skill extra no cambia la conducta, cambia el alcance.
+### Las 9 capas compartidas
+
+| Familia | N | Qué cubre |
+|---|---|---|
+| `comun_leads` | 17 | Leads BESS/PCI/Ruido/SCED, prospección, score, cruce de señales, ciberseguridad, mercado |
+| `comun_normativa_sen` | 14 | Generación, transmisión, distribución, PMGD, SSCC, InfoTecnica, RAG normativo |
+| `comun_cotizacion` | 12 | BOM + HH, valorización, multimarca, EBITDA, orquestador Odoo |
+| `comun_informes` | 26 | Informes técnicos, .docx, Gantt, presentaciones, propuestas, landings, diagramas |
+| `comun_datos` | 16 | Extracción determinística, OCR, visión, expedientes, research de proyecto |
+| `comun_busqueda_web` | 29 | AISA completo, Perplexity, teardown, SEIA, importaciones, contactos, X |
+| `comun_seguridad` | 14 | Reglas de Victor, dónde va cada regla, harness, revisión, especificación |
+| `comun_plataforma` | 23 | Hermes, MCP, cron, VPS, modelos, gateway, kanban |
+| `comun_comercial` | 35 | B2B, negociación, innovación, RAG, corpus, cursos, marca |
+
+**Verificado:** 263 skills únicas, todas existen en `~/.hermes/skills`.
+La suma por familia (264) es mayor porque una skill puede servir a dos capas.
+
+**Criterio de corte:** entró todo lo que el portafolio de CONECTA usa para vender, calificar,
+cotizar, buscar y publicar con evidencia. Quedó fuera lo que no es del negocio: `science` (38),
+`gaming`, `smart-home`, `mlops` profundo. Una línea nueva se agrega sin tocar el SOUL: una skill
+extra cambia el alcance, no la conducta.
 
 **Advertencia de arquitectura (skill `conecta-agent-patterns`):** el conocimiento de una línea
 NO puede vivir en la silla de una persona. Si Francisco rota a SCADA, su criterio queda en skills
-versionadas en el repo, no en su perfil personal. Eso es exactamente lo que hace este paquete.
+versionadas en el repo, no en su perfil personal. Eso es lo que hace este paquete — y es la razón
+por la que es transversal y no "el agente de Francisco".
 
 ## 4. Las reglas de conducta (SOUL.md)
 
@@ -198,7 +214,7 @@ Telegram o WhatsApp.
 - **Repo público con material de CONECTA.** El detector cubre clientes, montos, correos,
   teléfonos, rutas, IPs y credenciales. **No cubre** un criterio comercial escrito en prosa
   ("a este cliente le vendemos barato porque..."). Eso se revisa a mano, no hay regex que lo atrape.
-- **Skills de terceros con licencia.** 93 skills incluyen material de vendors y de libros. Antes
+- **Skills de terceros con licencia.** 263 skills incluyen material de vendors y de libros. Antes
   de un repo público, verificar que cada una se pueda redistribuir.
 - **El empaquetador sanea, pero el SOUL se escribe a mano.** Si alguien edita el SOUL en el repo
   y no en el perfil, quedan dos verdades. Una cifra, un solo origen: el SOUL vivo es el del

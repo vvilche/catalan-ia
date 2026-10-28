@@ -17,7 +17,7 @@ está pendiente.
 |---|---|---|---|
 | D1 | Bucle | Heredado de Hermes: while con stuck detection por firma SHA-256, verify_on_stop encendido | ✅ provisto |
 | D2 | Integración LLM | deepseek-v4-flash por `hermes config set`, fallback a modelo gratis | ✅ provisto |
-| D3 | Herramientas | ~15 por rol + 93 skills con carga diferida | ✅ provisto |
+| D3 | Herramientas | ~15 por rol + 263 skills con carga diferida | ✅ provisto |
 | D4 | Memoria | MEMORY.md (entorno) + USER.md (Victor), SOUL con índice. Sin RAG sobre código | ✅ provisto |
 | D5 | **Seguridad** | 13 reglas en SOUL + 10 controles ejecutables + gate de privacidad. **Sin sandbox de SO** | ⚠️ parcial |
 | D6 | Orquestación | **Ausencia deliberada**: single-agent | ✅ decidido |
@@ -63,11 +63,11 @@ abarta la segunda llamada. No es estética, es dinero.
 
 ## D3 · Herramientas
 
-**Posición:** ~15 herramientas de Hermes (terminal, files, browser, delegation) + 93 skills con
+**Posición:** ~15 herramientas de Hermes (terminal, files, browser, delegation) + 263 skills con
 *carga diferida* (patrón *Deferred Loading*, que Hermes implementa con BM25 sobre el catálogo).
 
 La regla del paper que aplica acá: **sobre ~15 herramientas, adopta carga diferida**; bajo ese
-número no vale la indirección. CatalanIA está justo en el umbral, así que las 93 skills **son** el
+número no vale la indirección. CatalanIA está justo en el umbral, así que las 263 skills **son** el
 mecanismo de ampliación, no herramientas nuevas. Por eso el paquete no agrega tools: agrega
 procedimientos.
 
@@ -144,14 +144,14 @@ porque no reparte trabajo — pero eso es otro producto, no CatalanIA.
 **Posición:** skills primero, MCP después — en ese orden, que es el del paper (skills 9/12, MCP
 8/12).
 
-- **93 skills** = *Skills (capability bundles)*, el mecanismo que ganó como estándar.
+- **263 skills** = *Skills (capability bundles)*, el mecanismo que ganó como estándar.
 - **Hooks** = *Policy-as-Code*. El hook de parada y `pre_tool_call` son de este subsistema (y el
   que se colgó en esta sesión también).
 - **MCP** para Odoo, cuando haga falta hablar con el ERP sin pasar por scripts.
 - `config.yaml` como política, no como código.
 
 **Riesgo declarado:** instalar skills de terceros sin niveles de confianza ni cuarentena. El paper
-recomienda tratarlas como paquetes. CatalanIA hereda 93 skills del Mac sin ese filtro.
+recomienda tratarlas como paquetes. CatalanIA hereda 263 skills del Mac sin ese filtro.
 
 ---
 
@@ -198,7 +198,7 @@ con linaje (*Lineage Compaction*). No hay que construirlo y no se debe duplicar.
 
 - No dice que CatalanIA sea mejor ni peor que otro agente: el paper no rankea y renunció a comparar
   benchmarks.
-- Los conteos (93 skills, 10 controles) son afirmaciones de **inventario** y caducan. Las
+- Los conteos (263 skills, 10 controles) son afirmaciones de **inventario** y caducan. Las
   estructurales (posición en los 7 subsistemas) son las que se sostienen.
 - El estado "provisto" significa que la pieza existe en Hermes y se configuró. Significa
   **verificado que funciona** solo donde hubo salida real: el gate de privacidad, los 3 bugs del

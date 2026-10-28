@@ -1,8 +1,21 @@
-import os, re, glob, json
+"""Resuelve el mapa familia -> skills de CatalanIA contra ~/.hermes/skills.
+
+CatalanIA es un agente TRANSVERSAL: cubre las 4 lineas de negocio de CONECTA
+(NORMATIVO, SCADA, PAC-SSEE, Procesos) mas las capas compartidas. Por eso el eje
+de las familias es el NEGOCIO, no una persona.
+
+Los nombres se buscan por el campo `name:` del frontmatter, NO por el directorio:
+hay skills cuyo directorio no coincide con su name
+(ej. sitr-base -> evaluating-sitr-compliance).
+"""
+import os
+import re
+import glob
+import json
 
 SK = os.path.expanduser('~/.hermes/skills')
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'seed', 'familias.json')
-OUT = os.path.normpath(OUT)
+OUT = os.path.normpath(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), '..', 'seed', 'familias.json'))
 
 
 def index_skills():
@@ -18,79 +31,151 @@ def index_skills():
     return idx
 
 
+# ── eje de NEGOCIO: 4 lineas + capas compartidas ────────────────────────────
 FAMILIAS = {
-    "escalera": [
+    # ===== las 4 lineas de negocio =====
+    "linea_normativo": [
         "escalera-al-exito", "conecta-ventas-metodologia", "conecta-ventas", "conecta-sales",
         "conecta-dolor-oculto", "conecta-objeciones", "score-potencial-cliente",
-        "priorizacion-cruce-senales", "leads-skill-template", "producto-industria-mapping",
-        "conecta-prospeccion", "b2b", "b2b-sales-multiagent", "negotiation",
-    ],
-    "radar_normativo": [
         "radar-normativo-cen", "cen-cartas-leads", "cartas-cen-scraping",
-        "motor-leads-normativo", "campana-ntsycs", "sec-multas-leads", "vigilancia-normativa",
+        "motor-leads-normativo", "campana-ntsycs", "sec-multas-leads", "cen-datos-operacion",
+        "diagnostico-coordinado", "evaluating-sitr-compliance", "evaluating-ecap-study",
+        "evaluating-edac-edag-erag-compliance", "conecta-edac", "prs-pruebas-cen",
+        "conecta-documentos-cen", "conecta-escalera-graph",
     ],
-    "info_tecnica": [
-        "infotecnica-cen", "cen-datos-operacion", "diagnostico-coordinado",
-        "externo-fuentes",
+    "linea_scada": [
+        "elipse-conecta", "scada", "scada-tecnica-conecta", "scada-valorizacion",
+        "conecta-unilineal-scada", "comasa-uns-elipse", "bombin", "iaiops",
+        "industrial-iot-lab", "industrial-mqtt-simulator", "industrial-dashboard-generator",
+        "industrial-digitalization-kickoff", "industrial-tier0-pilot",
+        "conecta-solutions",
     ],
-    "producto": [
-        "conecta-solutions", "supcon-products", "novatech-products", "vizimax-products",
-        "satec-products", "conecta-leads-bess", "conecta-leads-pci", "conecta-leads-ruido",
-        "conecta-leads-sced",
+    "linea_pac_ssee": [
+        "protecciones-reles", "slrp-protecciones", "coordinating-electrical-protections",
+        "calculating-short-circuit", "novatech-rtu-retrofit", "industrial-diagram-ai",
+        "novatech-products", "vizimax-products", "satec-products",
     ],
-    "cotizacion": [
+    "linea_procesos": [
+        "supcon-products", "supcon-dcs-ecs700", "supcon-hardware", "supcon-instruments",
+        "supcon-valves", "supcon-sis-tcs", "supcon-software-platform", "supcon-control-room",
+        "supcon-pride", "supcon-nyx-ucs", "supcon-mining-chile", "supcon-pulp-paper",
+        "supcon-competitive", "product-catalog-teardown", "cement-plant-simulator",
+        "pipeline-hydraulics-sim", "guacolda-tier0-simulator",
+        "tier0", "tier0-api", "tier0-uns-modeling", "tier0-modelar-industrial",
+        "tier0-edge", "tier0-namespace-reference", "tier0-populate-namespace",
+        "tier0-populate-eventflow", "tier0-populate-grafana", "tier0-populate-sourceflow",
+        "tier0-content-population", "tier0-preventa-subestaciones", "tier0-openapi-reference",
+        "tier0-pcba-pattern", "uns-namespace-generator", "substation-tier0-pipeline",
+    ],
+
+    # ===== capas compartidas por las 4 lineas =====
+    "comun_leads": [
+        "conecta-leads", "conecta-leads-bess", "conecta-leads-pci", "conecta-leads-ruido",
+        "conecta-leads-sced", "leads-skill-template", "producto-industria-mapping",
+        "conecta-prospeccion", "priorizacion-cruce-senales", "sscc-prospeccion-pipeline",
+        "sscc-medicion-cen", "conecta-business-intel", "chile-ciberseguridad-compliance",
+        "chile-ciberseguridad-regulatoria", "cumplimiento-regulatorio-chile",
+        "estudio-mercado-importaciones", "catalogo-empresas",
+    ],
+    "comun_normativa_sen": [
+        "evaluating-generation-compliance", "evaluating-transmission-compliance",
+        "evaluating-distribution-compliance", "evaluating-pmgd-pmg-compliance",
+        "evaluating-sscc-compliance", "energia-regulatoria-chile", "mercado-electrico-chile",
+        "infotecnica-cen", "radar-noticias-conecta", "rag-normativo-chile", "normativacen-rag",
+        "chile-normativa-ingestion", "aisa-rumor-scanner",
+        "monitoring-regulatory-changes",
+    ],
+    "comun_cotizacion": [
         "conecta-cotizacion-workflow", "conecta-valorizacion", "conecta-presupuestaria",
         "cotizaciones-multimarca", "conecta-datos-financieros",
-        "verificacion-calculos-financieros",
+        "verificacion-calculos-financieros", "conecta-bom-replicacion", "conecta-ebitda-bono",
+        "conecta-cotizador-agents", "conecta-orquestador-odoo", "odoo-jsonrpc-integration",
+        "odoo-operaciones-campo",
     ],
-    "odoo": [
-        "conecta-orquestador-odoo", "odoo-jsonrpc-integration", "odoo-operaciones-campo",
-    ],
-    "material_venta": [
-        "conecta-correos", "conecta-proposals", "conecta-presentaciones",
-        "conecta-pptx-pitch", "conecta-web-landings", "supcon-presentaciones",
-        "conecta-brand-strategy", "landing-pages-marketing",
-    ],
-    "informes": [
+    "comun_informes": [
         "generating-technical-report", "documento-docx-editable", "carta-gantt-msproject",
-        "librerias-ingenieria-python", "pdf", "xlsx",
+        "librerias-ingenieria-python", "pdf", "xlsx", "docx", "powerpoint",
+        "conecta-pptx-pitch", "conecta-presentaciones", "conecta-proposals",
+        "conecta-correos", "conecta-web-landings", "conecta-brand-strategy",
+        "supcon-presentaciones", "landing-pages-marketing", "popular-web-designs",
+        "claude-design", "conecta-data-dashboards", "conecta-landing-marketing",
+        "claude-design", "sld-generator", "architecture-diagram", "excalidraw", "sketch",
+        "svg-layout-audit", "harness-engineering-agentes",
     ],
-    "datos": [
-        "deterministic-data-extraction", "xlsx", "pdf", "docx", "ocr-and-documents",
-        "research-grounded-answers", "grounded-citations",
+    "comun_datos": [
+        "deterministic-data-extraction", "ocr-and-documents", "research-grounded-answers",
+        "grounded-citations", "vision-gemini-bridge", "image-ocr", "macos-image-ocr",
+        "browser-testing-with-devtools", "dogfood", "auditoria-expediente-cliente",
+        "comasa-cuenta-clave", "analisis-proyecto-terceros",
+        "perfilar-organizacion-investigacion", "industrial-research-workflows",
+        "session-history-mining", "session-librarian",
     ],
-    "seguridad": [
-        "victor-rules", "agent-behavior-enforcement", "hermes-mac-vps-split",
-        "conecta-agent-patterns", "doubt-driven-development",
-        "source-driven-development",
-    ],
-    "busqueda_web": [
+    "comun_busqueda_web": [
         "aisa-cli", "aisa-search", "aisa-multisearch", "aisa-deep-research",
-        "aisa-tavily-extract", "aisa-x-intel", "aisa-rumor-scanner", "perplexity-search",
-        "scholar-search", "web-search", "company-teardown", "teardown-competidor-radar",
-        "competitor-news-monitor", "catalogo-empresas", "estudio-mercado-importaciones",
-        "cumplimiento-regulatorio-chile", "chile-ciberseguridad-compliance",
-        "chile-ciberseguridad-regulatoria", "seia-ingenieria", "fuentes-proyectos-chile",
-        "gestores-pmgd-chile", "contact-enrichment", "twitter-autopilot", "web",
-        "blocked-page-recovery", "tavily-extract", "web-research",
+        "aisa-tavily-extract", "aisa-x-intel", "aisa-rumor-scanner", "aisa-marketpulse",
+        "aisa-trend-forecast", "aisa-seo-keywords", "aisa-youtube-search", "perplexity-search",
+        "scholar-search", "web-search", "web-research", "tavily-extract",
+        "blocked-page-recovery", "company-teardown", "teardown-competidor-radar",
+        "competitor-news-monitor", "contact-enrichment", "twitter-autopilot",
+        "x-intelligence-automation", "twitter-command-center-search-post", "seia-ingenieria",
+        "fuentes-proyectos-chile", "gestores-pmgd-chile", "seo-keyword-research",
+        "oportunidades-exposicion-ia",
+    ],
+    "comun_seguridad": [
+        "victor-rules", "agent-behavior-enforcement", "hermes-mac-vps-split",
+        "conecta-agent-patterns", "doubt-driven-development", "source-driven-development",
+        "constraint-driven-development", "code-review-and-quality", "security-and-hardening",
+        "spec-driven-development", "planning-and-task-breakdown",
+        "incremental-implementation", "debugging-and-error-recovery", "shipping-and-launch",
+    ],
+    "comun_plataforma": [
+        "hermes-agent", "hermes-profiles", "hermes-model-config", "hermes-mcp", "native-mcp",
+        "hermes-cron-audit", "hermes-vps-ops", "hermes-gateway-operations",
+        "hermes-update-migration", "respaldo-soul-hermes", "hermes-web-interfaces",
+        "webhook-subscriptions", "free-model-orchestration", "kimi-moonshot-api",
+        "llm-gateway-providers", "nvidia-model-router", "deepseek-harness",
+        "vps-webapp-deploy", "vps-deployment", "hermes-setup-teaching",
+        "kanban-orchestrator", "kanban-worker", "orchestration",
+    ],
+    "comun_comercial": [
+        "b2b-sales-multiagent", "negotiation", "negotiate-for-principal",
+        "proposal", "partnership-plans", "weekly-review-planning", "meeting-action-items",
+        "document-to-action-items", "posicionamiento-agente-industrial",
+        "monetizacion-5-plays", "innovacion-frameworks", "ten-types-innovation",
+        "lean-startup", "running-lean", "innovators-dilemma", "book-to-skill", "ideation",
+        "conecta-cursos", "conecta-video", "conecta-web", "conecta-web-deploy",
+        "conecta-mcp-agent", "conecta-rag-pipeline", "rag-architecture", "audit-rag-generator",
+        "corpus-ingesta-sin-perdidas", "corpus-dedup-por-contenido", "corpus-molde-mining",
+        "corpus-multilingue-indexacion", "llm-wiki", "port-agent-skills", "espanol-chileno",
+        "calendario-fae", "usach-cursos", "ttung-design-system",
     ],
 }
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     idx = index_skills()
     res, faltan = {}, []
     for fam, names in FAMILIAS.items():
-        ok = []
+        ok, visto = [], set()
         for n in names:
+            if n in visto:
+                continue
+            visto.add(n)
             if n in idx:
-                ok.append({"name": n, "src": os.path.relpath(idx[n][0], SK)})
+                ok.append({'name': n, 'src': os.path.relpath(idx[n][0], SK)})
             else:
-                faltan.append("%s/%s" % (fam, n))
+                faltan.append(n)
         res[fam] = ok
+
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump(res, open(OUT, "w"), ensure_ascii=False, indent=1)
+    json.dump(res, open(OUT, 'w'), ensure_ascii=False, indent=1)
+
+    print("=== FAMILIAS (eje de negocio) ===")
     for fam, items in res.items():
-        print("%-16s %2d  %s" % (fam, len(items), ", ".join(x["name"] for x in items)))
-    total = sum(len(v) for v in res.values())
-    print("\nTOTAL %d (unicas %d)" % (total, len({x["name"] for v in res.values() for x in v})))
-    print("FALTAN:", ", ".join(faltan) if faltan else "ninguna")
+        print("%-22s %3d" % (fam, len(items)))
+    todas = {x['name'] for v in res.values() for x in v}
+    print("\nSuma por familia: %d" % sum(len(v) for v in res.values()))
+    print("Skills UNICAS:    %d" % len(todas))
+    if faltan:
+        print("\nNO ENCONTRADAS (%d): %s" % (len(set(faltan)), ", ".join(sorted(set(faltan)))))
+    else:
+        print("\nTodas las skills referenciadas existen.")

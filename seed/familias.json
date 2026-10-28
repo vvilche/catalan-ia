@@ -1,5 +1,5 @@
 {
- "escalera": [
+ "linea_normativo": [
   {
    "name": "escalera-al-exito",
    "src": "conecta/escalera-al-exito"
@@ -29,32 +29,6 @@
    "src": "sales/score-potencial-cliente"
   },
   {
-   "name": "priorizacion-cruce-senales",
-   "src": "research/priorizacion-cruce-senales"
-  },
-  {
-   "name": "leads-skill-template",
-   "src": "conecta/leads-skill-template"
-  },
-  {
-   "name": "producto-industria-mapping",
-   "src": "conecta/producto-industria-mapping"
-  },
-  {
-   "name": "conecta-prospeccion",
-   "src": "conecta/conecta-prospeccion"
-  },
-  {
-   "name": "b2b-sales-multiagent",
-   "src": "b2b/b2b-sales-multiagent"
-  },
-  {
-   "name": "negotiation",
-   "src": "negotiation"
-  }
- ],
- "radar_normativo": [
-  {
    "name": "radar-normativo-cen",
    "src": "cen/radar-normativo-cen"
   },
@@ -77,12 +51,6 @@
   {
    "name": "sec-multas-leads",
    "src": "sec-multas-leads"
-  }
- ],
- "info_tecnica": [
-  {
-   "name": "infotecnica-cen",
-   "src": "infotecnica-cen"
   },
   {
    "name": "cen-datos-operacion",
@@ -91,16 +59,118 @@
   {
    "name": "diagnostico-coordinado",
    "src": "diagnostico"
+  },
+  {
+   "name": "evaluating-sitr-compliance",
+   "src": "sitr-base"
+  },
+  {
+   "name": "evaluating-ecap-study",
+   "src": "ecap"
+  },
+  {
+   "name": "evaluating-edac-edag-erag-compliance",
+   "src": "edac-edag-erag"
+  },
+  {
+   "name": "conecta-edac",
+   "src": "conecta/conecta-edac"
+  },
+  {
+   "name": "prs-pruebas-cen",
+   "src": "conecta/prs-pruebas-cen"
+  },
+  {
+   "name": "conecta-documentos-cen",
+   "src": "conecta/conecta-documentos-cen"
+  },
+  {
+   "name": "conecta-escalera-graph",
+   "src": "conecta/conecta-escalera-graph"
   }
  ],
- "producto": [
+ "linea_scada": [
+  {
+   "name": "elipse-conecta",
+   "src": "conecta/elipse-conecta"
+  },
+  {
+   "name": "scada",
+   "src": "scada"
+  },
+  {
+   "name": "scada-tecnica-conecta",
+   "src": "scada-tecnica-conecta"
+  },
+  {
+   "name": "scada-valorizacion",
+   "src": "scada-valorizacion"
+  },
+  {
+   "name": "conecta-unilineal-scada",
+   "src": "conecta/conecta-unilineal-scada"
+  },
+  {
+   "name": "comasa-uns-elipse",
+   "src": "conecta/comasa-uns-elipse"
+  },
+  {
+   "name": "bombin",
+   "src": "conecta/bombin"
+  },
+  {
+   "name": "iaiops",
+   "src": "iaiops"
+  },
+  {
+   "name": "industrial-iot-lab",
+   "src": "devops/industrial-iot-lab"
+  },
+  {
+   "name": "industrial-mqtt-simulator",
+   "src": "devops/industrial-mqtt-simulator"
+  },
+  {
+   "name": "industrial-dashboard-generator",
+   "src": "devops/industrial-dashboard-generator"
+  },
+  {
+   "name": "industrial-digitalization-kickoff",
+   "src": "productivity/industrial-digitalization-kickoff"
+  },
+  {
+   "name": "industrial-tier0-pilot",
+   "src": "productivity/industrial-tier0-pilot"
+  },
   {
    "name": "conecta-solutions",
    "src": "conecta/conecta-solutions"
+  }
+ ],
+ "linea_pac_ssee": [
+  {
+   "name": "protecciones-reles",
+   "src": "scada/protecciones-reles"
   },
   {
-   "name": "supcon-products",
-   "src": "sales/supcon-products"
+   "name": "slrp-protecciones",
+   "src": "scada/slrp-protecciones"
+  },
+  {
+   "name": "coordinating-electrical-protections",
+   "src": "protecciones"
+  },
+  {
+   "name": "calculating-short-circuit",
+   "src": "cortocircuito"
+  },
+  {
+   "name": "novatech-rtu-retrofit",
+   "src": "novatech-rtu-retrofit"
+  },
+  {
+   "name": "industrial-diagram-ai",
+   "src": "conecta/industrial-diagram-ai"
   },
   {
    "name": "novatech-products",
@@ -113,6 +183,146 @@
   {
    "name": "satec-products",
    "src": "partners/satec-products"
+  }
+ ],
+ "linea_procesos": [
+  {
+   "name": "supcon-products",
+   "src": "sales/supcon-products"
+  },
+  {
+   "name": "supcon-dcs-ecs700",
+   "src": "supcon-dcs-ecs700"
+  },
+  {
+   "name": "supcon-hardware",
+   "src": "supcon-hardware"
+  },
+  {
+   "name": "supcon-instruments",
+   "src": "supcon-instruments"
+  },
+  {
+   "name": "supcon-valves",
+   "src": "supcon-valves"
+  },
+  {
+   "name": "supcon-sis-tcs",
+   "src": "supcon-sis-tcs"
+  },
+  {
+   "name": "supcon-software-platform",
+   "src": "supcon-software-platform"
+  },
+  {
+   "name": "supcon-control-room",
+   "src": "supcon/supcon-control-room"
+  },
+  {
+   "name": "supcon-pride",
+   "src": "supcon/supcon-pride"
+  },
+  {
+   "name": "supcon-nyx-ucs",
+   "src": "supcon-nyx-ucs"
+  },
+  {
+   "name": "supcon-mining-chile",
+   "src": "supcon-mining-chile"
+  },
+  {
+   "name": "supcon-pulp-paper",
+   "src": "supcon-pulp-paper"
+  },
+  {
+   "name": "supcon-competitive",
+   "src": "supcon-competitive"
+  },
+  {
+   "name": "product-catalog-teardown",
+   "src": "research/product-catalog-teardown"
+  },
+  {
+   "name": "cement-plant-simulator",
+   "src": "devops/cement-plant-simulator"
+  },
+  {
+   "name": "pipeline-hydraulics-sim",
+   "src": "devops/pipeline-hydraulics-sim"
+  },
+  {
+   "name": "guacolda-tier0-simulator",
+   "src": "devops/guacolda-tier0-simulator"
+  },
+  {
+   "name": "tier0",
+   "src": "tier0"
+  },
+  {
+   "name": "tier0-api",
+   "src": "devops/tier0-api"
+  },
+  {
+   "name": "tier0-uns-modeling",
+   "src": "devops/tier0-uns-modeling"
+  },
+  {
+   "name": "tier0-modelar-industrial",
+   "src": "tier0-modelar-industrial"
+  },
+  {
+   "name": "tier0-edge",
+   "src": "tier0-edge"
+  },
+  {
+   "name": "tier0-namespace-reference",
+   "src": "tier0-edge/tier0-namespace-reference"
+  },
+  {
+   "name": "tier0-populate-namespace",
+   "src": "tier0-edge/tier0-populate-namespace"
+  },
+  {
+   "name": "tier0-populate-eventflow",
+   "src": "tier0-edge/tier0-populate-eventflow"
+  },
+  {
+   "name": "tier0-populate-grafana",
+   "src": "tier0-edge/tier0-populate-grafana"
+  },
+  {
+   "name": "tier0-populate-sourceflow",
+   "src": "tier0-edge/tier0-populate-sourceflow"
+  },
+  {
+   "name": "tier0-content-population",
+   "src": "tier0-content-population"
+  },
+  {
+   "name": "tier0-preventa-subestaciones",
+   "src": "ttung-projects/tier0-preventa-subestaciones"
+  },
+  {
+   "name": "tier0-openapi-reference",
+   "src": "ttung-projects/tier0-openapi-reference"
+  },
+  {
+   "name": "tier0-pcba-pattern",
+   "src": "tier0-edge/tier0-pcba-pattern"
+  },
+  {
+   "name": "uns-namespace-generator",
+   "src": "ttung-projects/uns-namespace-generator"
+  },
+  {
+   "name": "substation-tier0-pipeline",
+   "src": "autonomous-ai-agents/substation-tier0-pipeline"
+  }
+ ],
+ "comun_leads": [
+  {
+   "name": "conecta-leads",
+   "src": "conecta-leads"
   },
   {
    "name": "conecta-leads-bess",
@@ -129,9 +339,115 @@
   {
    "name": "conecta-leads-sced",
    "src": "conecta/conecta-leads-sced"
+  },
+  {
+   "name": "leads-skill-template",
+   "src": "conecta/leads-skill-template"
+  },
+  {
+   "name": "producto-industria-mapping",
+   "src": "conecta/producto-industria-mapping"
+  },
+  {
+   "name": "conecta-prospeccion",
+   "src": "conecta/conecta-prospeccion"
+  },
+  {
+   "name": "priorizacion-cruce-senales",
+   "src": "research/priorizacion-cruce-senales"
+  },
+  {
+   "name": "sscc-prospeccion-pipeline",
+   "src": "sales/sscc-prospeccion-pipeline"
+  },
+  {
+   "name": "sscc-medicion-cen",
+   "src": "sales/sscc-medicion-cen"
+  },
+  {
+   "name": "conecta-business-intel",
+   "src": "research/conecta-business-intel"
+  },
+  {
+   "name": "chile-ciberseguridad-compliance",
+   "src": "chile-ciberseguridad-compliance"
+  },
+  {
+   "name": "chile-ciberseguridad-regulatoria",
+   "src": "chile-ciberseguridad-regulatoria"
+  },
+  {
+   "name": "cumplimiento-regulatorio-chile",
+   "src": "research/cumplimiento-regulatorio-chile"
+  },
+  {
+   "name": "estudio-mercado-importaciones",
+   "src": "research/estudio-mercado-importaciones"
+  },
+  {
+   "name": "catalogo-empresas",
+   "src": "research/catalogo-empresas"
   }
  ],
- "cotizacion": [
+ "comun_normativa_sen": [
+  {
+   "name": "evaluating-generation-compliance",
+   "src": "generacion"
+  },
+  {
+   "name": "evaluating-transmission-compliance",
+   "src": "transmision"
+  },
+  {
+   "name": "evaluating-distribution-compliance",
+   "src": "distribucion"
+  },
+  {
+   "name": "evaluating-pmgd-pmg-compliance",
+   "src": "pmgd-pmg"
+  },
+  {
+   "name": "evaluating-sscc-compliance",
+   "src": "sscc"
+  },
+  {
+   "name": "energia-regulatoria-chile",
+   "src": "energia-regulatoria-chile"
+  },
+  {
+   "name": "mercado-electrico-chile",
+   "src": "energy/mercado-electrico-chile"
+  },
+  {
+   "name": "infotecnica-cen",
+   "src": "infotecnica-cen"
+  },
+  {
+   "name": "radar-noticias-conecta",
+   "src": "conecta/radar-noticias-conecta"
+  },
+  {
+   "name": "rag-normativo-chile",
+   "src": "research/rag-normativo-chile"
+  },
+  {
+   "name": "normativacen-rag",
+   "src": "research/normativacen-rag"
+  },
+  {
+   "name": "chile-normativa-ingestion",
+   "src": "research/chile-normativa-ingestion"
+  },
+  {
+   "name": "aisa-rumor-scanner",
+   "src": "aisa-rumor-scanner"
+  },
+  {
+   "name": "monitoring-regulatory-changes",
+   "src": "vigilancia-normativa"
+  }
+ ],
+ "comun_cotizacion": [
   {
    "name": "conecta-cotizacion-workflow",
    "src": "conecta/conecta-cotizacion-workflow"
@@ -155,9 +471,19 @@
   {
    "name": "verificacion-calculos-financieros",
    "src": "verificacion-calculos-financieros"
-  }
- ],
- "odoo": [
+  },
+  {
+   "name": "conecta-bom-replicacion",
+   "src": "conecta/conecta-bom-replicacion"
+  },
+  {
+   "name": "conecta-ebitda-bono",
+   "src": "conecta/conecta-ebitda-bono"
+  },
+  {
+   "name": "conecta-cotizador-agents",
+   "src": "conecta/conecta-cotizador-agents"
+  },
   {
    "name": "conecta-orquestador-odoo",
    "src": "conecta/conecta-orquestador-odoo"
@@ -171,41 +497,7 @@
    "src": "odoo-operaciones-campo"
   }
  ],
- "material_venta": [
-  {
-   "name": "conecta-correos",
-   "src": "conecta/conecta-correos"
-  },
-  {
-   "name": "conecta-proposals",
-   "src": "conecta/conecta-proposals"
-  },
-  {
-   "name": "conecta-presentaciones",
-   "src": "conecta/conecta-presentaciones"
-  },
-  {
-   "name": "conecta-pptx-pitch",
-   "src": "conecta/conecta-pptx-pitch"
-  },
-  {
-   "name": "conecta-web-landings",
-   "src": "conecta/conecta-web-landings"
-  },
-  {
-   "name": "supcon-presentaciones",
-   "src": "supcon-presentaciones"
-  },
-  {
-   "name": "conecta-brand-strategy",
-   "src": "conecta/conecta-brand-strategy"
-  },
-  {
-   "name": "landing-pages-marketing",
-   "src": "sales/landing-pages-marketing"
-  }
- ],
- "informes": [
+ "comun_informes": [
   {
    "name": "generating-technical-report",
    "src": "informe-tecnico"
@@ -229,24 +521,92 @@
   {
    "name": "xlsx",
    "src": "xlsx"
-  }
- ],
- "datos": [
-  {
-   "name": "deterministic-data-extraction",
-   "src": "conecta/deterministic-data-extraction"
-  },
-  {
-   "name": "xlsx",
-   "src": "xlsx"
-  },
-  {
-   "name": "pdf",
-   "src": "pdf"
   },
   {
    "name": "docx",
    "src": "docx"
+  },
+  {
+   "name": "powerpoint",
+   "src": "productivity/powerpoint"
+  },
+  {
+   "name": "conecta-pptx-pitch",
+   "src": "conecta/conecta-pptx-pitch"
+  },
+  {
+   "name": "conecta-presentaciones",
+   "src": "conecta/conecta-presentaciones"
+  },
+  {
+   "name": "conecta-proposals",
+   "src": "conecta/conecta-proposals"
+  },
+  {
+   "name": "conecta-correos",
+   "src": "conecta/conecta-correos"
+  },
+  {
+   "name": "conecta-web-landings",
+   "src": "conecta/conecta-web-landings"
+  },
+  {
+   "name": "conecta-brand-strategy",
+   "src": "conecta/conecta-brand-strategy"
+  },
+  {
+   "name": "supcon-presentaciones",
+   "src": "supcon-presentaciones"
+  },
+  {
+   "name": "landing-pages-marketing",
+   "src": "sales/landing-pages-marketing"
+  },
+  {
+   "name": "popular-web-designs",
+   "src": "popular-web-designs"
+  },
+  {
+   "name": "claude-design",
+   "src": "claude-design"
+  },
+  {
+   "name": "conecta-data-dashboards",
+   "src": "conecta/conecta-data-dashboards"
+  },
+  {
+   "name": "conecta-landing-marketing",
+   "src": "conecta/conecta-landing-marketing"
+  },
+  {
+   "name": "sld-generator",
+   "src": "creative/sld-generator"
+  },
+  {
+   "name": "architecture-diagram",
+   "src": "creative/architecture-diagram"
+  },
+  {
+   "name": "excalidraw",
+   "src": "creative/excalidraw"
+  },
+  {
+   "name": "sketch",
+   "src": "creative/sketch"
+  },
+  {
+   "name": "svg-layout-audit",
+   "src": "svg-layout-audit"
+  },
+  {
+   "name": "harness-engineering-agentes",
+   "src": "harness-engineering-agentes"
+  }
+ ],
+ "comun_datos": [
+  {
+   "name": "deterministic-data-extraction",
+   "src": "conecta/deterministic-data-extraction"
   },
   {
    "name": "ocr-and-documents",
@@ -259,35 +619,57 @@
   {
    "name": "grounded-citations",
    "src": "research/grounded-citations"
+  },
+  {
+   "name": "vision-gemini-bridge",
+   "src": "vision-gemini-bridge"
+  },
+  {
+   "name": "image-ocr",
+   "src": "research/image-ocr"
+  },
+  {
+   "name": "macos-image-ocr",
+   "src": "devops/macos-image-ocr"
+  },
+  {
+   "name": "browser-testing-with-devtools",
+   "src": "browser-testing-with-devtools"
+  },
+  {
+   "name": "dogfood",
+   "src": "software-development/dogfood"
+  },
+  {
+   "name": "auditoria-expediente-cliente",
+   "src": "conecta/auditoria-expediente-cliente"
+  },
+  {
+   "name": "comasa-cuenta-clave",
+   "src": "conecta/comasa-cuenta-clave"
+  },
+  {
+   "name": "analisis-proyecto-terceros",
+   "src": "research/analisis-proyecto-terceros"
+  },
+  {
+   "name": "perfilar-organizacion-investigacion",
+   "src": "research/perfilar-organizacion-investigacion"
+  },
+  {
+   "name": "industrial-research-workflows",
+   "src": "ttung-projects/industrial-research-workflows"
+  },
+  {
+   "name": "session-history-mining",
+   "src": "session-history-mining"
+  },
+  {
+   "name": "session-librarian",
+   "src": "session-librarian"
   }
  ],
- "seguridad": [
-  {
-   "name": "victor-rules",
-   "src": "victor-rules"
-  },
-  {
-   "name": "agent-behavior-enforcement",
-   "src": "agent-behavior-enforcement"
-  },
-  {
-   "name": "hermes-mac-vps-split",
-   "src": "victor-rules/hermes-mac-vps-split"
-  },
-  {
-   "name": "conecta-agent-patterns",
-   "src": "conecta/conecta-agent-patterns"
-  },
-  {
-   "name": "doubt-driven-development",
-   "src": "doubt-driven-development"
-  },
-  {
-   "name": "source-driven-development",
-   "src": "source-driven-development"
-  }
- ],
- "busqueda_web": [
+ "comun_busqueda_web": [
   {
    "name": "aisa-cli",
    "src": "aisa-cli"
@@ -317,6 +699,22 @@
    "src": "aisa-rumor-scanner"
   },
   {
+   "name": "aisa-marketpulse",
+   "src": "aisa-marketpulse"
+  },
+  {
+   "name": "aisa-trend-forecast",
+   "src": "aisa-trend-forecast"
+  },
+  {
+   "name": "aisa-seo-keywords",
+   "src": "aisa-seo-keywords"
+  },
+  {
+   "name": "aisa-youtube-search",
+   "src": "research/aisa-youtube-search"
+  },
+  {
    "name": "perplexity-search",
    "src": "research/perplexity-search"
   },
@@ -327,6 +725,18 @@
   {
    "name": "web-search",
    "src": "research/web-search"
+  },
+  {
+   "name": "web-research",
+   "src": "research/web-research"
+  },
+  {
+   "name": "tavily-extract",
+   "src": "research/tavily-extract"
+  },
+  {
+   "name": "blocked-page-recovery",
+   "src": "web/blocked-page-recovery"
   },
   {
    "name": "company-teardown",
@@ -341,24 +751,20 @@
    "src": "competitor-news-monitor"
   },
   {
-   "name": "catalogo-empresas",
-   "src": "research/catalogo-empresas"
+   "name": "contact-enrichment",
+   "src": "research/contact-enrichment"
   },
   {
-   "name": "estudio-mercado-importaciones",
-   "src": "research/estudio-mercado-importaciones"
+   "name": "twitter-autopilot",
+   "src": "research/twitter-autopilot"
   },
   {
-   "name": "cumplimiento-regulatorio-chile",
-   "src": "research/cumplimiento-regulatorio-chile"
+   "name": "x-intelligence-automation",
+   "src": "research/x-intelligence-automation"
   },
   {
-   "name": "chile-ciberseguridad-compliance",
-   "src": "chile-ciberseguridad-compliance"
-  },
-  {
-   "name": "chile-ciberseguridad-regulatoria",
-   "src": "chile-ciberseguridad-regulatoria"
+   "name": "twitter-command-center-search-post",
+   "src": "twitter-command-center-search-post"
   },
   {
    "name": "seia-ingenieria",
@@ -373,24 +779,306 @@
    "src": "research/gestores-pmgd-chile"
   },
   {
-   "name": "contact-enrichment",
-   "src": "research/contact-enrichment"
+   "name": "seo-keyword-research",
+   "src": "research/seo-keyword-research"
   },
   {
-   "name": "twitter-autopilot",
-   "src": "research/twitter-autopilot"
+   "name": "oportunidades-exposicion-ia",
+   "src": "oportunidades-exposicion-ia"
+  }
+ ],
+ "comun_seguridad": [
+  {
+   "name": "victor-rules",
+   "src": "victor-rules"
   },
   {
-   "name": "blocked-page-recovery",
-   "src": "web/blocked-page-recovery"
+   "name": "agent-behavior-enforcement",
+   "src": "agent-behavior-enforcement"
   },
   {
-   "name": "tavily-extract",
-   "src": "research/tavily-extract"
+   "name": "hermes-mac-vps-split",
+   "src": "victor-rules/hermes-mac-vps-split"
   },
   {
-   "name": "web-research",
-   "src": "research/web-research"
+   "name": "conecta-agent-patterns",
+   "src": "conecta/conecta-agent-patterns"
+  },
+  {
+   "name": "doubt-driven-development",
+   "src": "doubt-driven-development"
+  },
+  {
+   "name": "source-driven-development",
+   "src": "source-driven-development"
+  },
+  {
+   "name": "constraint-driven-development",
+   "src": "constraint-driven-development"
+  },
+  {
+   "name": "code-review-and-quality",
+   "src": "code-review-and-quality"
+  },
+  {
+   "name": "security-and-hardening",
+   "src": "security-and-hardening"
+  },
+  {
+   "name": "spec-driven-development",
+   "src": "spec-driven-development"
+  },
+  {
+   "name": "planning-and-task-breakdown",
+   "src": "planning-and-task-breakdown"
+  },
+  {
+   "name": "incremental-implementation",
+   "src": "incremental-implementation"
+  },
+  {
+   "name": "debugging-and-error-recovery",
+   "src": "debugging-and-error-recovery"
+  },
+  {
+   "name": "shipping-and-launch",
+   "src": "shipping-and-launch"
+  }
+ ],
+ "comun_plataforma": [
+  {
+   "name": "hermes-agent",
+   "src": "autonomous-ai-agents/hermes-agent"
+  },
+  {
+   "name": "hermes-profiles",
+   "src": "devops/hermes-profiles"
+  },
+  {
+   "name": "hermes-model-config",
+   "src": "devops/hermes-model-config"
+  },
+  {
+   "name": "hermes-mcp",
+   "src": "devops/hermes-mcp"
+  },
+  {
+   "name": "native-mcp",
+   "src": "mcp/native-mcp"
+  },
+  {
+   "name": "hermes-cron-audit",
+   "src": "devops/hermes-cron-audit"
+  },
+  {
+   "name": "hermes-vps-ops",
+   "src": "devops/hermes-vps-ops"
+  },
+  {
+   "name": "hermes-gateway-operations",
+   "src": "devops/hermes-gateway-operations"
+  },
+  {
+   "name": "hermes-update-migration",
+   "src": "devops/hermes-update-migration"
+  },
+  {
+   "name": "respaldo-soul-hermes",
+   "src": "devops/respaldo-soul-hermes"
+  },
+  {
+   "name": "hermes-web-interfaces",
+   "src": "autonomous-ai-agents/hermes-web-interfaces"
+  },
+  {
+   "name": "webhook-subscriptions",
+   "src": "devops/webhook-subscriptions"
+  },
+  {
+   "name": "free-model-orchestration",
+   "src": "devops/free-model-orchestration"
+  },
+  {
+   "name": "kimi-moonshot-api",
+   "src": "devops/kimi-moonshot-api"
+  },
+  {
+   "name": "llm-gateway-providers",
+   "src": "mlops/llm-gateway-providers"
+  },
+  {
+   "name": "nvidia-model-router",
+   "src": "mlops/nvidia-model-router"
+  },
+  {
+   "name": "deepseek-harness",
+   "src": "devops/deepseek-harness"
+  },
+  {
+   "name": "vps-webapp-deploy",
+   "src": "devops/vps-webapp-deploy"
+  },
+  {
+   "name": "vps-deployment",
+   "src": "devops/vps-deployment"
+  },
+  {
+   "name": "hermes-setup-teaching",
+   "src": "devops/hermes-setup-teaching"
+  },
+  {
+   "name": "kanban-orchestrator",
+   "src": "devops/kanban-orchestrator"
+  },
+  {
+   "name": "kanban-worker",
+   "src": "devops/kanban-worker"
+  },
+  {
+   "name": "orchestration",
+   "src": "orchestration"
+  }
+ ],
+ "comun_comercial": [
+  {
+   "name": "b2b-sales-multiagent",
+   "src": "b2b/b2b-sales-multiagent"
+  },
+  {
+   "name": "negotiation",
+   "src": "negotiation"
+  },
+  {
+   "name": "negotiate-for-principal",
+   "src": "negotiate"
+  },
+  {
+   "name": "proposal",
+   "src": "proposal"
+  },
+  {
+   "name": "partnership-plans",
+   "src": "productivity/partnership-plans"
+  },
+  {
+   "name": "weekly-review-planning",
+   "src": "weekly-review-planning"
+  },
+  {
+   "name": "meeting-action-items",
+   "src": "meeting-action-items"
+  },
+  {
+   "name": "document-to-action-items",
+   "src": "document-to-action-items"
+  },
+  {
+   "name": "posicionamiento-agente-industrial",
+   "src": "sales/posicionamiento-agente-industrial"
+  },
+  {
+   "name": "monetizacion-5-plays",
+   "src": "sales/monetizacion-5-plays"
+  },
+  {
+   "name": "innovacion-frameworks",
+   "src": "innovacion/innovacion-frameworks"
+  },
+  {
+   "name": "ten-types-innovation",
+   "src": "innovacion/ten-types-innovation"
+  },
+  {
+   "name": "lean-startup",
+   "src": "business-books/lean-startup"
+  },
+  {
+   "name": "running-lean",
+   "src": "business-books/running-lean"
+  },
+  {
+   "name": "innovators-dilemma",
+   "src": "business-books/innovators-dilemma"
+  },
+  {
+   "name": "book-to-skill",
+   "src": "business-books/book-to-skill"
+  },
+  {
+   "name": "ideation",
+   "src": "creative/creative-ideation"
+  },
+  {
+   "name": "conecta-cursos",
+   "src": "conecta-cursos"
+  },
+  {
+   "name": "conecta-video",
+   "src": "conecta-video"
+  },
+  {
+   "name": "conecta-web",
+   "src": "conecta-web"
+  },
+  {
+   "name": "conecta-web-deploy",
+   "src": "conecta/conecta-web-deploy"
+  },
+  {
+   "name": "conecta-mcp-agent",
+   "src": "conecta/conecta-mcp-agent"
+  },
+  {
+   "name": "conecta-rag-pipeline",
+   "src": "conecta/conecta-rag-pipeline"
+  },
+  {
+   "name": "rag-architecture",
+   "src": "rag-architecture"
+  },
+  {
+   "name": "audit-rag-generator",
+   "src": "audit-rag-generator"
+  },
+  {
+   "name": "corpus-ingesta-sin-perdidas",
+   "src": "corpus-ingesta-sin-perdidas"
+  },
+  {
+   "name": "corpus-dedup-por-contenido",
+   "src": "corpus-dedup-por-contenido"
+  },
+  {
+   "name": "corpus-molde-mining",
+   "src": "corpus-molde-mining"
+  },
+  {
+   "name": "corpus-multilingue-indexacion",
+   "src": "corpus-multilingue-indexacion"
+  },
+  {
+   "name": "llm-wiki",
+   "src": "llm-wiki"
+  },
+  {
+   "name": "port-agent-skills",
+   "src": "port-agent-skills"
+  },
+  {
+   "name": "espanol-chileno",
+   "src": "productivity/espanol-chileno"
+  },
+  {
+   "name": "calendario-fae",
+   "src": "productivity/calendario-fae"
+  },
+  {
+   "name": "usach-cursos",
+   "src": "productivity/usach-cursos"
+  },
+  {
+   "name": "ttung-design-system",
+   "src": "ttung-design-system"
   }
  ]
 }
