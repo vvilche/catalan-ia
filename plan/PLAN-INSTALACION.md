@@ -69,7 +69,7 @@ compartidas. **Procesos no está en el agente**: se conserva aparte como referen
 
 ### Fuera de alcance: Procesos
 
-`_procesos_pendiente` tiene 35 skills identificadas (SUPCON DCS/instrumentos/válvulas/SIS/Tier0).
+`_procesos_pendiente` tiene 33 skills identificadas (SUPCON DCS/instrumentos/válvulas/SIS/Tier0).
 **No se instalan**: el prefijo `_` hace que el empaquetador las omita. Quedan ahí para no perder el
 trabajo cuando esa línea se aborde. Si una cuenta pide Procesos, el agente declara que no está
 cubierto en vez de improvisar (regla 13 del SOUL ampliada en "Quién sos").
@@ -295,7 +295,7 @@ algo que la instalación resuelva sola.
 
 1. **Canales** — CLI, WhatsApp, Telegram, cron. Sin esto el agente existe pero no se usa.
 2. **Permisos** — qué puede hacer sin preguntar. Propuesta: leer todo, escribir nada.
-3. **Procesos** — línea fuera del alcance, queda para cuando se aborde (35 skills ya identificadas
+3. **Procesos** — línea fuera del alcance, queda para cuando se aborde (33 skills ya identificadas
    en `_procesos_pendiente`).
 4. **Vigencia del tarifario** — el gate R09 ("tarifario con más de 12 meses no emite") no puede
    evaluar porque falta el campo de vigencia versionado. Sin eso el agente cotiza con precios

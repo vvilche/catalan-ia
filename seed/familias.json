@@ -317,14 +317,6 @@
   {
    "name": "substation-tier0-pipeline",
    "src": "autonomous-ai-agents/substation-tier0-pipeline"
-  },
-  {
-   "name": "odoo-operaciones-campo",
-   "src": "odoo-operaciones-campo"
-  },
-  {
-   "name": "conecta-solutions",
-   "src": "conecta/conecta-solutions"
   }
  ],
  "comun_leads": [

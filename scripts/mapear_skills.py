@@ -71,7 +71,6 @@ FAMILIAS = {
         "tier0-populate-eventflow", "tier0-populate-grafana", "tier0-populate-sourceflow",
         "tier0-content-population", "tier0-preventa-subestaciones", "tier0-openapi-reference",
         "tier0-pcba-pattern", "uns-namespace-generator", "substation-tier0-pipeline",
-        "odoo-operaciones-campo", "conecta-solutions",
     ],
 
     # ===== capas compartidas por las 3 lineas de POWER =====
