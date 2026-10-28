@@ -36,29 +36,42 @@ no hay sandbox de sistema operativo. Las reglas de seguridad son de conducta, no
 sesiones) más tres del rol comercial — el dato de cliente sale de Odoo y no de la memoria,
 brief ≠ estado de cuenta, y nada sale hacia afuera sin OK explícito.
 
-## Instalación en Windows (PowerShell)
+## Instalación en Windows, desde cero (PowerShell)
+
+Cada bloque es un paso. Detalle completo: `plan/PLAN-INSTALACION.md`.
 
 ```powershell
-# Ajustar $Repo a donde clonaste el repositorio
-$Repo   = "C:\catalan-ia"
-$PY     = "$env:USERPROFILE\.hermes\hermes-agent\venv\Scripts\python.exe"
-$ARNES  = "$env:USERPROFILE\.hermes\scripts"
-$Perfil = "$env:USERPROFILE\.hermes\profiles\catalania"
+# 0. Hermes (nativo en Windows, sin WSL). Después cerrar y reabrir PowerShell.
+iex (irm https://hermes-agent.nousresearch.com/install.ps1)
+hermes setup
+```
 
+```powershell
+# 1. Repo y variables
+git clone https://github.com/vvilche/catalan-ia.git "$env:USERPROFILE\catalan-ia"
+$Repo   = "$env:USERPROFILE\catalan-ia"
+$PY     = "$env:USERPROFILE\.hermes\hermes-agent\venv\Scripts\python.exe"
+$Perfil = "$env:USERPROFILE\.hermes\profiles\catalania"
+Set-Location $Repo
+
+# 2. Perfil vacío + config
 hermes profile create catalania --no-skills --description "Agente comercial CONECTA - Power"
 Copy-Item "$env:USERPROFILE\.hermes\config.yaml" "$Perfil\config.yaml" -Force
 hermes config set agent.verify_on_stop true --profile catalania
 
+# 3. Persona y memorias
 Copy-Item "$Repo\profile\SOUL.md"      "$Perfil\SOUL.md" -Force
 Copy-Item "$Repo\profile\profile.yaml" "$Perfil\profile.yaml" -Force
 New-Item -ItemType Directory -Force -Path "$Perfil\memories" | Out-Null
 Copy-Item "$Repo\profile\memories\*.md" "$Perfil\memories\" -Force
 
+# 4. Skills (230 de Power) — instaladas EN EL PERFIL, no en el repo
 & $PY "$Repo\scripts\empaquetar_perfil.py" --perfil $Perfil --salida $Perfil `
    --familias "$Repo\seed\familias.json" --limpiar
 ```
 
-Detalle completo, verificación y riesgos: `plan/PLAN-INSTALACION.md`.
+**Antes del paso 4**, las 230 skills tienen que existir en `$env:USERPROFILE\.hermes\skills`:
+el empaquetador copia desde ahí, no desde el repo. Si el perfil sale vacío, esa es la causa.
 
 ## Estructura
 

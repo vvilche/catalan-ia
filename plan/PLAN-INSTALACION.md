@@ -131,49 +131,113 @@ Una regla en prosa se cumple ~53% de las veces. Un script, ~100%. Por eso:
 
 El último es nuevo en esta sesión y es el que hace posible un repo público.
 
-## 6. Instalación en Windows (PowerShell)
+## 6. Instalación en Windows, desde cero (PowerShell)
 
-Requisitos: Hermes instalado, el repo clonado, y el arnés en la máquina.
+Esta sección arranca en una PC Windows **sin nada instalado**. Al final hay un perfil
+`catalania` funcionando.
+
 **Este perfil corre en Windows.** Los comandos son PowerShell, no bash.
 
+### Paso 0 — Instalar Hermes
+
+Hermes corre nativo en Windows: no hace falta WSL. Abrir PowerShell y ejecutar:
+
 ```powershell
-# Rutas del entorno (una sola vez por sesión)
-$PY    = "$env:USERPROFILE\.hermes\hermes-agent\venv\Scripts\python.exe"
-$ARNES = "$env:USERPROFILE\.hermes\scripts"
-$Repo  = "C:\ruta\donde\clonaste\catalan-ia"   # <= ajustar a tu equipo
+iex (irm https://hermes-agent.nousresearch.com/install.ps1)
+```
+
+El instalador trae Python 3.14, Node.js, npm, ripgrep y FFmpeg sin intervención. Si no hay Git,
+deja una copia verificada en el almacén de herramientas de Hermes (no reemplaza el Git del
+sistema). La instalación nativa vive en `%LOCALAPPDATA%\hermes`.
+
+Cerrar y reabrir PowerShell, después:
+
+```powershell
+hermes --version
+hermes setup
+```
+
+`hermes setup` pide la clave del proveedor de modelo. Sin eso el agente arranca pero no piensa.
+
+> **Si el antivirus marca `uv.exe` como malware:** es un falso positivo. `uv` es el gestor de
+> Python de Astral que Hermes incluye, y los antivirus con ML marcan binarios Rust sin firma.
+> Se resuelve con una exclusión: PowerShell como administrador →
+> `Add-MpPreference -ExclusionPath "$env:LOCALAPPDATA\hermes\bin"`
+
+> **Si preferís WSL2:** el instalador de Linux (`curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash`)
+> funciona ahí y el perfil queda en `~/.hermes`, como en Linux. Todo el resto del plan es
+> PowerShell nativo; con WSL2 los comandos vuelven a ser bash.
+
+### Paso 0.5 — Clonar el repo
+
+```powershell
+winget install --id Git.Git -e   # solo si no hay Git
+git clone https://github.com/vvilche/catalan-ia.git "$env:USERPROFILE\catalan-ia"
+```
+
+### Paso 1 — Variables de la sesión
+
+```powershell
+$PY     = "$env:USERPROFILE\.hermes\hermes-agent\venv\Scripts\python.exe"
+$ARNES  = "$env:USERPROFILE\.hermes\scripts"
+$Repo   = "$env:USERPROFILE\catalan-ia"
 $Perfil = "$env:USERPROFILE\.hermes\profiles\catalania"
 Set-Location $Repo
+```
 
-# 0. Colisión: exit 0 obligatorio
-& $PY "$ARNES\antes_de_crear.py" "catalania"
+> **Ojo con la ruta del Python.** Una instalación nativa de Windows puede dejar Hermes en
+> `%LOCALAPPDATA%\hermes`. Verificar con `hermes --version` y, si el venv no está donde dice
+> `$PY`, buscar el intérprete real antes de seguir:
+> `Get-ChildItem "$env:LOCALAPPDATA\hermes" -Filter python.exe -Recurse -ErrorAction SilentlyContinue | Select-Object -First 3 FullName`
 
-# 1. Arnés de controles (10 scripts, stdlib puro: corren igual en Windows)
-& "$env:USERPROFILE\hermes-config\arnes\instalar.sh"        # si tenés git-bash
-& $PY "$ARNES\verificar_privacidad_perfil.py" "$Perfil"     # o copiar los .py a mano
+### Paso 2 — Colisión y controles
 
-# 2. Crear el perfil vacío
+```powershell
+& $PY "$ARNES\antes_de_crear.py" "catalania"     # exit 0 obligatorio
+```
+
+Los scripts del arnés son Python de stdlib puro. Si el repo no los trae, copiarlos a
+`$ARNES`; no necesitan `pip install` ni bash.
+
+### Paso 3 — Crear el perfil vacío
+
+```powershell
 hermes profile create catalania --no-skills --description "Agente comercial CONECTA - Power (NORMATIVO, SCADA, PAC-SSEE)"
+```
 
-# 3. Config: heredar claves y MCP, después endurecer
+### Paso 4 — Config: heredar claves y MCP, después endurecer
+
+```powershell
 Copy-Item "$env:USERPROFILE\.hermes\config.yaml" "$Perfil\config.yaml" -Force
-hermes config set agent.verify_on_stop true                      --profile catalania
-hermes config set tool_loop_guardrails.hard_stop_enabled true     --profile catalania
-hermes config set model.provider deepseek                        --profile catalania
-hermes config set model.model deepseek-v4-flash                  --profile catalania
+hermes config set agent.verify_on_stop true                     --profile catalania
+hermes config set tool_loop_guardrails.hard_stop_enabled true    --profile catalania
+hermes config set model.provider deepseek                       --profile catalania
+hermes config set model.model deepseek-v4-flash                 --profile catalania
+```
 
-# 4. SOUL, descripción y memorias
+### Paso 5 — SOUL, descripción y memorias
+
+```powershell
 Copy-Item "$Repo\profile\SOUL.md"      "$Perfil\SOUL.md" -Force
 Copy-Item "$Repo\profile\profile.yaml" "$Perfil\profile.yaml" -Force
 New-Item -ItemType Directory -Force -Path "$Perfil\memories" | Out-Null
 Copy-Item "$Repo\profile\memories\*.md" "$Perfil\memories\" -Force
+```
 
-# 5. Skills: 230 de Power, por familia, INSTALADAS EN EL PERFIL
-& $PY "$Repo\scripts\empaquetar_perfil.py" --perfil $Perfil --salida $Perfil --familias "$Repo\seed\familias.json" --limpiar
+### Paso 6 — Skills: 230 de Power, INSTALADAS EN EL PERFIL
 
-# 6. Verificar
+```powershell
+& $PY "$Repo\scripts\empaquetar_perfil.py" --perfil $Perfil --salida $Perfil `
+   --familias "$Repo\seed\familias.json" --limpiar
+```
+
+### Paso 7 — Verificar
+
+```powershell
 & $PY "$ARNES\verificar_privacidad_perfil.py" $Perfil
 hermes profile list | Select-String catalania
-(Get-ChildItem "$Perfil\skills" -Recurse -Filter SKILL.md).Count   # 230
+(Get-ChildItem "$Perfil\skills" -Recurse -Filter SKILL.md).Count   # debe dar 230
+catalania                                                          # arrancar el agente
 ```
 
 **Tres cosas del orden que importan:**
@@ -184,13 +248,22 @@ hermes profile list | Select-String catalania
 2. El `Copy-Item` del config va **antes** del `hermes config set`, para no pisar lo heredado.
 3. Las memorias se copian **antes** del empaquetado, porque el gate audita el perfil completo.
 
-Nota: `hermes profile create` deja el lanzador en el PATH de Hermes. Se entra con `catalania` o
-con `hermes --profile catalania`.
+`hermes profile create` deja el lanzador en el PATH de Hermes. Se entra con `catalania` o con
+`hermes --profile catalania`.
 
-### Si el arnés no está en esta máquina
+### Si el empaquetador falla diciendo que no encuentra skills
 
-Los scripts son Python de stdlib puro y viajan con el repo. Copiarlos a
-`"$env:USERPROFILE\.hermes\scripts\"` y listo: no necesitan `pip install` ni bash.
+Significa que el perfil de origen está vacío: el empaquetador copia **desde `~/.hermes/skills`**
+(las skills base de la máquina), no desde el repo. En el PC de Francisco esas 230 skills no
+existen todavía.
+
+**Esa es la brecha real de la instalación en su equipo, y no la resuelve este repo.** Hay que
+llevar las skills al `~/.hermes/skills` de su máquina (copia directa o repo aparte). Verificar
+antes:
+
+```powershell
+(Get-ChildItem "$env:USERPROFILE\.hermes\skills" -Recurse -Filter SKILL.md).Count
+```
 
 ## 7. Publicar el repo
 
