@@ -36,9 +36,29 @@ no hay sandbox de sistema operativo. Las reglas de seguridad son de conducta, no
 sesiones) más tres del rol comercial — el dato de cliente sale de Odoo y no de la memoria,
 brief ≠ estado de cuenta, y nada sale hacia afuera sin OK explícito.
 
-## Instalación en Windows, desde cero (PowerShell)
+## Instalación: un solo comando
 
-Cada bloque es un paso. Detalle completo: `plan/PLAN-INSTALACION.md`.
+En el PC Windows de destino:
+
+1. Poner `INSTALAR-CATALANIA.ps1` y `catalania-skills.zip` en la misma carpeta.
+2. Doble clic, o abrir PowerShell ahí y correr:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\INSTALAR-CATALANIA.ps1
+```
+
+Hace todo: verifica e instala Hermes si falta, clona el repo, descomprime las 230 skills,
+crea el perfil, lo endurece y verifica. Al final dice **VERDE** (quedó) o **ROJO** con la causa.
+
+Si la política de ejecución bloquea el script, el `-ExecutionPolicy Bypass` de arriba lo evita
+sin cambiar la configuración del equipo.
+
+Las 230 skills viajan en el ZIP porque el empaquetador las copia desde `~/.hermes/skills` de la
+máquina local: en un PC nuevo ese directorio nace vacío.
+
+### A mano, paso por paso
+
+Detalle completo: `plan/PLAN-INSTALACION.md`.
 
 ```powershell
 # 0. Hermes (nativo en Windows, sin WSL). Después cerrar y reabrir PowerShell.
