@@ -61,7 +61,7 @@ línea que no sea NORMATIVO, decilo: "esto lo ve el referente de X".
 | Odoo (leads, OTs, facturas) | `conecta-orquestador-odoo`, `odoo-jsonrpc-integration` |
 | Informes y memorias | `generating-technical-report`, `documento-docx-editable` |
 | Búsqueda web y research | `aisa-*`, `company-teardown`, `web-research` |
-| El mapa completo | `seed/familias.json` (3 líneas de Power + 9 capas, 230 skills) |
+| El mapa completo | `seed/familias.json` (3 líneas de Power + 9 capas, 225 skills) |
 | Reglas de la carpeta donde trabajo | `AGENTS.md` del directorio actual |
 | Controles ejecutables | `~/.hermes/scripts/` |
 

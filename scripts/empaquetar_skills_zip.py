@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Empaqueta las 230 skills de CatalanIA en un ZIP para llevarlas a otro equipo.
+"""Empaqueta las 225 skills de CatalanIA en un ZIP para llevarlas a otro equipo.
 
 Uso:
     python empaquetar_skills_zip.py [--salida <ruta.zip>]
@@ -27,6 +27,11 @@ import zipfile
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.dirname(AQUI)
 SK = os.path.expanduser(os.path.join("~", ".hermes", "skills"))
+ARCH = os.path.join(SK, ".archive")
+
+# Skills del mapa que hoy viven en .archive (curaduria las saco de la biblioteca viva) pero
+# siguen en el alcance del agente. Se toman del archivo; las demas archivadas NO van.
+DESDE_ARCHIVO = {"sec-multas-leads", "elipse-conecta"}
 
 # Formatos de credencial REAL (no las plantillas tipo sk-xxx...xxxx de la documentacion)
 CRED = re.compile(
@@ -66,8 +71,13 @@ def familias():
 
 
 def recolectar():
-    """devuelve [(familia, nombre, src)] sin duplicados, omitiendo familias '_'."""
-    vistas, out = set(), []
+    """devuelve [(familia, nombre, src)] sin duplicados, omitiendo familias '_'.
+
+    Omite ademas las skills del mapa que ya no existen en la biblioteca viva ni estan en
+    DESDE_ARCHIVO: mantenerlas en el mapa de un agente que se instala en otro equipo solo
+    produce un ABORTA al empaquetar.
+    """
+    vistas, out, fuera = set(), [], []
     for fam, items in familias().items():
         if fam.startswith("_"):
             print("  omitida (referencia, no se instala): %s (%d)" % (fam, len(items)))
@@ -76,7 +86,17 @@ def recolectar():
             if it["name"] in vistas:
                 continue
             vistas.add(it["name"])
-            out.append((fam, it["name"], it["src"]))
+            src = it["src"]
+            if not os.path.isdir(os.path.join(SK, src)):
+                if it["name"] in DESDE_ARCHIVO and os.path.isdir(os.path.join(ARCH, it["name"])):
+                    src = os.path.join(".archive", it["name"])
+                else:
+                    fuera.append(it["name"])
+                    continue
+            out.append((fam, it["name"], src))
+    if fuera:
+        print("  fuera del paquete (%d, no estan en la biblioteca viva): %s"
+              % (len(fuera), ", ".join(fuera)))
     return out
 
 

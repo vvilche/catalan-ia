@@ -6,7 +6,7 @@
     Que hace, en orden:
       1. Verifica PowerShell y que exista Hermes; si no esta, lo instala.
       2. Clona (o actualiza) el repo catalan-ia.
-      3. Descomprime las 230 skills en %USERPROFILE%\.hermes\skills.
+      3. Descomprime las 225 skills en %USERPROFILE%\.hermes\skills.
       4. Crea el perfil y le pasa config, SOUL, memorias.
       5. Empaqueta las skills en el perfil y verifica el resultado.
 
@@ -36,6 +36,10 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+
+# Inventario del paquete (fuente: seed/familias.json, 225 skills vivas). Un solo lugar.
+$SKILLS_ESPERADAS = 225
+$SKILLS_MINIMAS   = 220
 $ProgressPreference    = "SilentlyContinue"
 
 # ---------- utilidades de salida ----------
@@ -143,7 +147,7 @@ foreach ($f in @($SOUL, $Familias, $Empaquetador)) {
 }
 
 # ---------- 3. Skills ----------
-Paso 3 "Skills de Power (230)"
+Paso 3 "Skills de Power ($SKILLS_ESPERADAS)"
 if (-not $ZipSkills) {
     $ZipSkills = Join-Path $PSScriptRoot "catalania-skills.zip"
 }
@@ -163,7 +167,7 @@ try {
     $origenSkills = Join-Path $tmpSkills "skills"
     if (-not (Test-Path $origenSkills)) { Muere "El ZIP no tiene la carpeta 'skills'. Archivo incorrecto." }
     $enZIP = (Get-ChildItem $origenSkills -Recurse -Filter SKILL.md).Count
-    if ($enZIP -lt 200) { Muere "El ZIP trae solo $enZIP skills (se esperan 230). Archivo incompleto." }
+    if ($enZIP -lt $SKILLS_MINIMAS) { Muere "El ZIP trae solo $enZIP skills (se esperan al menos $SKILLS_MINIMAS). Archivo incompleto." }
     New-Item -ItemType Directory -Force -Path $Skills | Out-Null
     Copy-Item (Join-Path $origenSkills "*") $Skills -Recurse -Force
     $instaladas = (Get-ChildItem $Skills -Recurse -Filter SKILL.md).Count
@@ -229,8 +233,8 @@ if ($codigoEmpaq -ne 0) {
 
 Paso 6 "Verificar"
 $final = (Get-ChildItem "$Perfil\skills" -Recurse -Filter SKILL.md -ErrorAction SilentlyContinue).Count
-if ($final -eq 230)   { Ok "230 skills en el perfil" }
-elseif ($final -gt 0) { Aviso "$final skills en el perfil (se esperaban 230)" }
+if ($final -ge $SKILLS_MINIMAS) { Ok "$final skills en el perfil (paquete de $SKILLS_ESPERADAS)" }
+elseif ($final -gt 0) { Aviso "$final skills en el perfil (se esperaban $SKILLS_ESPERADAS)" }
 else                  { Falla "El perfil no tiene skills" }
 
 foreach ($f in @("SOUL.md","profile.yaml","config.yaml","memories\MEMORY.md","memories\USER.md")) {

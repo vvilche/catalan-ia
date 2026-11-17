@@ -21,7 +21,7 @@ skills identificadas quedan como referencia en `_procesos_pendiente`, aparte, si
 - **Producir material**: informe técnico, memoria de cálculo, correo, propuesta, presentación.
 - **Buscar**: AISA, Perplexity, company teardown, SEIA, importaciones, contactos.
 
-230 skills en 12 familias (3 líneas + 9 capas compartidas). Ver `seed/familias.json`.
+225 skills en 12 familias (3 líneas + 9 capas compartidas). Ver `seed/familias.json`.
 
 ## Auditoría de arquitectura
 
@@ -40,21 +40,35 @@ brief ≠ estado de cuenta, y nada sale hacia afuera sin OK explícito.
 
 En el PC Windows de destino:
 
-1. Poner `INSTALAR-CATALANIA.ps1` y `catalania-skills.zip` en la misma carpeta.
-2. Doble clic, o abrir PowerShell ahí y correr:
+1. Clonar el repo (o bajarlo como ZIP desde GitHub).
+2. Pedirle el `catalania-skills.zip` a Victor y dejarlo en la carpeta del script
+   (va por fuera del repo: el ZIP no se versiona).
+3. Doble clic en `INSTALAR-CATALANIA.ps1`, o abrir PowerShell ahí y correr:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\INSTALAR-CATALANIA.ps1
 ```
 
-Hace todo: verifica e instala Hermes si falta, clona el repo, descomprime las 230 skills,
+Si el ZIP quedó en otra ruta (OneDrive, Escritorio), se le pasa explícito:
+
+```powershell
+.\INSTALAR-CATALANIA.ps1 -ZipSkills "$env:USERPROFILE\OneDrive\catalania-skills.zip"
+```
+
+Hace todo: verifica e instala Hermes si falta, clona el repo, descomprime las 225 skills,
 crea el perfil, lo endurece y verifica. Al final dice **VERDE** (quedó) o **ROJO** con la causa.
 
 Si la política de ejecución bloquea el script, el `-ExecutionPolicy Bypass` de arriba lo evita
 sin cambiar la configuración del equipo.
 
-Las 230 skills viajan en el ZIP porque el empaquetador las copia desde `~/.hermes/skills` de la
+Las 225 skills viajan en el ZIP porque el empaquetador las copia desde `~/.hermes/skills` de la
 máquina local: en un PC nuevo ese directorio nace vacío.
+
+**El ZIP no está en el repo** (`.gitignore` excluye `dist/` y `*.zip`) porque las skills contienen
+teléfonos, RUTs y datos de contacto de terceros que no corresponden en un repositorio público.
+Se entrega por canal privado. Tras actualizar una skill en el Mac, se regenera con
+`scripts/empaquetar_skills_zip.py` y se vuelve a entregar.
+
 
 ### A mano, paso por paso
 
@@ -85,12 +99,12 @@ Copy-Item "$Repo\profile\profile.yaml" "$Perfil\profile.yaml" -Force
 New-Item -ItemType Directory -Force -Path "$Perfil\memories" | Out-Null
 Copy-Item "$Repo\profile\memories\*.md" "$Perfil\memories\" -Force
 
-# 4. Skills (230 de Power) — instaladas EN EL PERFIL, no en el repo
+# 4. Skills (225 de Power) — instaladas EN EL PERFIL, no en el repo
 & $PY "$Repo\scripts\empaquetar_perfil.py" --perfil $Perfil --salida $Perfil `
    --familias "$Repo\seed\familias.json" --limpiar
 ```
 
-**Antes del paso 4**, las 230 skills tienen que existir en `$env:USERPROFILE\.hermes\skills`:
+**Antes del paso 4**, las 225 skills tienen que existir en `$env:USERPROFILE\.hermes\skills`:
 el empaquetador copia desde ahí, no desde el repo. Si el perfil sale vacío, esa es la causa.
 
 ## Estructura
@@ -102,7 +116,7 @@ profile/            lo que se instala en ~/.hermes/profiles/catalania/
   config.yaml       punto de partida: modelo, verify_on_stop, hard_stop
   profile.yaml      descripción de la silla
 scripts/
-  mapear_skills.py  resuelve las 230 skills por familia desde ~/.hermes/skills
+  mapear_skills.py  resuelve las 225 skills por familia desde ~/.hermes/skills
   empaquetar_perfil.py  copia y SANEA el perfil; aborta si hay datos de cliente
 seed/familias.json  el mapa familia → skills (fuente única)
 plan/               este plan

@@ -34,13 +34,13 @@ ausencia deliberada, y **una brecha estructural abierta: no hay sandbox de siste
 │   └── USER.md             quién es Victor y cómo quiere que le hable
 ├── config.yaml             modelo, verify_on_stop, hard_stop
 ├── profile.yaml            descripción de la silla
-└── skills\                 230 skills en 12 familias (ver seed/familias.json)
+└── skills\                 225 skills en 12 familias (ver seed/familias.json)
 ```
 
 **Plataforma: Windows con PowerShell.** No hay `cp`, `export`, `~` ni `open -a`. El perfil trae la
 tabla de equivalencias en `memories/MEMORY.md` y el SOUL prohíbe dar comandos de bash.
 
-## 3. Las 12 familias de skills (230 skills) — Power
+## 3. Las 12 familias de skills (225 skills) — Power
 
 CatalanIA cubre **Power**: las 3 líneas del sistema eléctrico de potencia más las capas
 compartidas. **Procesos no está en el agente**: se conserva aparte como referencia.
@@ -74,7 +74,7 @@ compartidas. **Procesos no está en el agente**: se conserva aparte como referen
 trabajo cuando esa línea se aborde. Si una cuenta pide Procesos, el agente declara que no está
 cubierto en vez de improvisar (regla 13 del SOUL ampliada en "Quién sos").
 
-**Verificado:** 230 skills únicas al perfil, todas existen en `~/.hermes/skills`. Solapamiento
+**Verificado:** 225 skills únicas al perfil, todas existen en `~/.hermes/skills`. Solapamiento
 entre Procesos y lo activo: 2 skills.
 
 **Criterio de corte:** entró todo lo que Power usa para vender, calificar, cotizar, buscar y
@@ -224,7 +224,7 @@ New-Item -ItemType Directory -Force -Path "$Perfil\memories" | Out-Null
 Copy-Item "$Repo\profile\memories\*.md" "$Perfil\memories\" -Force
 ```
 
-### Paso 6 — Skills: 230 de Power, INSTALADAS EN EL PERFIL
+### Paso 6 — Skills: 225 de Power, INSTALADAS EN EL PERFIL
 
 ```powershell
 & $PY "$Repo\scripts\empaquetar_perfil.py" --perfil $Perfil --salida $Perfil `
@@ -254,7 +254,7 @@ catalania                                                          # arrancar el
 ### Si el empaquetador falla diciendo que no encuentra skills
 
 Significa que el perfil de origen está vacío: el empaquetador copia **desde `~/.hermes/skills`**
-(las skills base de la máquina), no desde el repo. En el PC de Francisco esas 230 skills no
+(las skills base de la máquina), no desde el repo. En el PC de Francisco esas 225 skills no
 existen todavía.
 
 **Esa es la brecha real de la instalación en su equipo, y no la resuelve este repo.** Hay que
@@ -312,7 +312,7 @@ algo que la instalación resuelva sola.
 - **Repo público con material de CONECTA.** El detector cubre clientes, montos, correos,
   teléfonos, rutas, IPs y credenciales. **No cubre** un criterio comercial escrito en prosa
   ("a este cliente le vendemos barato porque..."). Eso se revisa a mano, no hay regex que lo atrape.
-- **Skills de terceros con licencia.** 230 skills incluyen material de vendors y de libros. Antes
+- **Skills de terceros con licencia.** 225 skills incluyen material de vendors y de libros. Antes
   de un repo público, verificar que cada una se pueda redistribuir.
 - **El empaquetador sanea, pero el SOUL se escribe a mano.** Si alguien edita el SOUL en el repo
   y no en el perfil, quedan dos verdades. Una cifra, un solo origen: el SOUL vivo es el del
