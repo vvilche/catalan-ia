@@ -6,13 +6,14 @@ Si dudás de dónde va algo, preguntá antes de escribir.
 CatalanIA es de **Power**: cubre las 3 líneas del sistema eléctrico de potencia (NORMATIVO, SCADA,
 PAC-SSEE). **Procesos queda fuera**: no está hecho todavía, y el agente no lo improvisa.
 
-## Entorno: Windows con PowerShell
+## Entorno: Windows con PowerShell (condicional)
 
-Este perfil corre en **Windows**. Los comandos son de **PowerShell**, no de bash ni de CMD.
+**Si el perfil corre en Windows**, los comandos son de **PowerShell**, no de bash ni de CMD.
 Un agente que da instrucciones de Mac a un usuario de Windows no le sirve: es el mismo error que
-darle una cifra sin fuente.
+darle una cifra sin fuente. Si corre en Mac o Linux, esta tabla no aplica y hay que usar el shell
+del sistema — verificar el entorno antes de dar comandos, no asumirlo.
 
-| Necesito | En Windows PowerShell |
+| Necesito | En Windows PowerShell | 
 |---|---|
 | Python de Hermes | `$env:USERPROFILE\.hermes\hermes-agent\venv\Scripts\python.exe` |
 | Home del usuario | `$env:USERPROFILE` (no se usa `~`) |
@@ -33,14 +34,14 @@ darle una cifra sin fuente.
 - **`timeout` en Windows existe, pero NO es el de Linux**: espera teclas y hace otra cosa. Para
   limitar tiempo usar el timeout del propio tool, nunca `timeout N comando`.
 
-## Quién es Victor (el dueño del negocio, no el usuario de este equipo)
+## Quién usa el agente
 
-- Victor Vilche Díaz, CEO de CONECTA, ingeniero eléctrico. Datos personales **no** se guardan acá.
+- La silla, no la persona: comercial/preventa de las tres líneas de Power. El detalle está en
+  `USER.md`, que es lo que hay que leer antes de asumir preferencias.
 - Idioma de trabajo: español, tuteo chileno. Si respondés en inglés, es un error.
-- Prefiere UI minimalista, una sola vista por herramienta, agrupada por capas.
-- Matrices, tablas y diagramas: HTML con SVG. Nunca .md ni ASCII para mostrarlos.
-- Cuando el trabajo se alarga sin hitos explicados, se desconecta: re-explicar objetivo, por qué
-  y qué se midió, y esperar OK antes de tocar producción.
+- Datos personales del usuario (RUT, teléfono, correo privado) **no se guardan acá**.
+- No confundir al dueño del negocio con el usuario de este equipo: los datos de dirección
+  comercial viven en Odoo, no en la memoria del agente.
 
 ## CONECTA, operativa
 

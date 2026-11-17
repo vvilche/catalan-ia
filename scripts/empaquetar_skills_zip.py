@@ -116,6 +116,34 @@ def hijas_que_son_skills(items):
     return dentro
 
 
+def normalizar_platforms(datos, arc):
+    """Asegura que el frontmatter declare windows.
+
+    Hermes oculta una skill cuyo `platforms:` no incluye el SO actual. 29 skills del paquete
+    decian [linux, macos] y desaparecian en el PC Windows de destino: las 9 aisa-*, los
+    catalogos de marca, cen-datos-operacion, bombin. El agente quedaba sin busqueda web y sin
+    producto, sin ningun error visible.
+
+    Devuelve (datos, cambiado).
+    """
+    if not arc.endswith("SKILL.md"):
+        return datos, False
+    try:
+        t = datos.decode("utf-8")
+    except UnicodeDecodeError:
+        return datos, False
+    m = re.search(r"^platforms:\s*\[([^\]]*)\]\s*$", t, re.M)
+    if not m:
+        return datos, False
+    dentro = [p.strip().strip("'\"") for p in m.group(1).split(",") if p.strip()]
+    if "windows" in [p.lower() for p in dentro]:
+        return datos, False
+    nuevas = dentro + ["windows"]
+    reemplazo = "platforms: [%s]" % ", ".join(nuevas)
+    t2 = t[:m.start()] + reemplazo + t[m.end():]
+    return t2.encode("utf-8"), True
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--salida", default=os.path.join(RAIZ, "dist", "catalania-skills.zip"))
@@ -134,6 +162,7 @@ def main():
 
     os.makedirs(os.path.dirname(a.salida), exist_ok=True)
     creds, archivos, total = [], 0, 0
+    parcheadas = []
     with zipfile.ZipFile(a.salida, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
         for fam, nombre, src in items:
             raiz_skill = os.path.join(SK, src)
@@ -158,6 +187,9 @@ def main():
                                 creds.append(arc)
                         except Exception:
                             pass
+                    datos, tocado = normalizar_platforms(datos, arc)
+                    if tocado:
+                        parcheadas.append(nombre)
                     z.writestr(arc, datos)
                     archivos += 1
                     total += len(datos)
@@ -175,6 +207,12 @@ def main():
         os.remove(a.salida)
         return 1
     print("credenciales: 0 (solo plantillas de documentacion)")
+    if parcheadas:
+        unicas = sorted(set(parcheadas))
+        print("platforms:   %d skill(s) declaraban sin windows y se corrigieron: %s"
+              % (len(unicas), ", ".join(unicas)))
+    else:
+        print("platforms:   todas declaran windows")
     print("\nEn el PC de destino: descomprimir y correr .\\INSTALAR-SKILLS.ps1")
     return 0
 

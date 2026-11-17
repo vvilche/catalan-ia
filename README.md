@@ -112,21 +112,54 @@ el empaquetador copia desde ahí, no desde el repo. Si el perfil sale vacío, es
 ```
 profile/            lo que se instala en ~/.hermes/profiles/catalania/
   SOUL.md           contrato de conducta (13 reglas)
-  memories/         MEMORY.md (entorno) y USER.md (Victor)
+  memories/         MEMORY.md (entorno) y USER.md (la silla, no la persona)
   config.yaml       punto de partida: modelo, verify_on_stop, hard_stop
   profile.yaml      descripción de la silla
+arnes/              controles ejecutables (stdlib puro, corren en Windows y en Unix)
+  antes_de_crear.py             colisiones antes de crear algo
+  editar_seguro.py              releer antes de editar
+  auditar_respuesta.py          afirmaciones sin fuente
+  check_contexto.py             ventana de contexto
+  medir_agents_md.py            qué AGENTS.md llegan al agente
+  verificar_privacidad_perfil.py  bloquea publicar un perfil con datos de cliente
 scripts/
   mapear_skills.py  resuelve las 225 skills por familia desde ~/.hermes/skills
   empaquetar_perfil.py  copia y SANEA el perfil; aborta si hay datos de cliente
+  empaquetar_skills_zip.py  arma el ZIP que se entrega aparte
 seed/familias.json  el mapa familia → skills (fuente única)
 plan/               este plan
 ```
+
+### Instalar el arnés
+
+Los 6 controles son Python de stdlib puro: no necesitan `pip install` ni grep/awk, así que
+corren igual en Windows. El SOUL los manda usar antes de crear, editar o publicar; si no están,
+el agente choca contra un script que no existe.
+
+```powershell
+# Windows: el Hermes de Hermes Agent trae su propio python
+$HERMES_HOME = if ($env:LOCALAPPDATA) { Join-Path $env:LOCALAPPDATA "hermes" } else { Join-Path $env:USERPROFILE ".hermes" }
+$Destino = Join-Path $HERMES_HOME "scripts"
+New-Item -ItemType Directory -Force -Path $Destino | Out-Null
+Copy-Item "$Repo\arnes\*.py" $Destino -Force
+Get-ChildItem $Destino -Filter *.py | Select-Object Name
+```
+
+En Mac o Linux:
+
+```bash
+mkdir -p ~/.hermes/scripts && cp arnes/*.py ~/.hermes/scripts/
+```
+
+Los dos `.sh` del arnés (`arnes_verificar.sh`, `manifest_verificar.sh`) **no viajan**: usan
+grep, awk y sed, y en Windows no corren. Los `.py` son la parte que el SOUL exige.
 
 ## Privacidad
 
 Este repo es **público**. `verificar_privacidad_perfil.py` (del arnés) bloquea la publicación
 si encuentra nombres de cliente, montos, correos, teléfonos, rutas del Mac, IPs privadas o
-credenciales. Probado: 6 bloqueantes en un perfil sucio, 0 en uno limpio.
+credenciales. Probado con un perfil sucio: detecta los 5 patrones y sale **1**; con un perfil
+limpio sale **0**.
 
 Lo que **no** detecta: un criterio comercial escrito en prosa. Eso se revisa a mano.
 
